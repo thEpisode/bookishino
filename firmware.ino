@@ -13,13 +13,6 @@
 
 #include "firmware.h"
 
-
-
-
-void staticSensorDevice()
-{
-}
-
 void flashingMode()
 {
     if (_settingsController->settings.is_flash_mode == true && _wifiController->isConnected() == true)
@@ -59,78 +52,23 @@ void staticMode()
     {
         previousStaticModeMillis = currentMillis;
 
-        if (_settingsController->settings.is_micronode_role == true && _wifiController->isConnected() == true)
+        if (_wifiController->isConnected() == false)
         {
-            Serial.println("Static micro-node handling...");
-
-            _ds18b20Controller = new Ds18b20(2, "sns-1234-2");  // <--- Change this id
-            _neo6mController = new Neo6m(1, 3, "sns-1235-2");   // <--- Change this id
-            _sen0193Controller = new Sen0193(34, "sns-1236-2"); // <--- Change this id
-
-            Serial.println("Reading sen0193...");
-            String payloadSen0193 = _sen0193Controller->response();
-            _wifiController->sendMessage(requestOrigin, requestRoute, payloadSen0193, requestMethod);
-            delay(1000);
-
-            Serial.println("Reading ds18b20...");
-            String payloadDs18b20 = _ds18b20Controller->response();
-            _wifiController->sendMessage(requestOrigin, requestRoute, payloadDs18b20, requestMethod);
-            delay(1000);
-
-            Serial.println("Reading neo6m...");
-            String payloadNeo6m = _neo6mController->response();
-            _wifiController->sendMessage(requestOrigin, requestRoute, payloadNeo6m, requestMethod);
-
-            // Printing data
-
-            Serial.println("Neo6m " + payloadNeo6m);
-            /* Serial.println("DS18B20 " + payloadDs18b20);
-            Serial.println("Sen0193 " + payloadSen0193);
-            */
+            return;
         }
-        else if (_settingsController->settings.is_radiationnode_role == true && _wifiController->isConnected() == true)
-        {
-            Serial.println("Static radiation-node handling...");
 
-            _pdvp8001Controller = new Pdvp8001(35, "sns-1238-1"); // <--- Change this id
-            _veml6075Controller = new Veml6075("sns-1239-1");     // <--- Change this id
+        Serial.println("Static micro-node handling...");
 
-            Serial.println("Reading pdvp8001...");
-            String payloadPdvp8001 = _pdvp8001Controller->response();
-            _wifiController->sendMessage(requestOrigin, requestRoute, payloadPdvp8001, requestMethod);
-            delay(1000);
+        _ds18b20Controller = new Ds18b20(2, "sns-1234-2");  // <--- Change this id
 
-            Serial.println("Reading veml6075...");
-            String payloadVeml6075 = _veml6075Controller->response();
-            _wifiController->sendMessage(requestOrigin, requestRoute, payloadVeml6075, requestMethod);
-            delay(1000);
-        }
-        else if (_settingsController->settings.is_weathernode_role == true && _wifiController->isConnected() == true)
-        {
-            Serial.println("Static weather-node handling...");
+        Serial.println("Reading sen0193...");
+        String payloadSen0193 = _sen0193Controller->response();
+        _wifiController->sendMessage(requestOrigin, requestRoute, payloadSen0193, requestMethod);
+        delay(1000);
 
-            // TODO: Implement code for weather station
-        }
-        else if (_settingsController->settings.is_macronode_role == true && _loraController->isConnected() == true)
-        {
-            Serial.println("Static macro-node handling...");
-            if (!_am2315Controller)
-            {
-                _am2315Controller = new Am2315("sns-1237-1"); // <--- Change this id
-            }
+        // Printing data
 
-            // Reading data
-            Serial.println("Reading am2315...");
-            String responseam = _am2315Controller->response();
-            Serial.println("Readed am2315...");
-            delay(1);
-
-            _loraController->sendMessage(responseam, 0xF3);
-            //_wifiController->sendMessage(requestRoute, responseam, requestMethod);
-
-            // Printing data
-            Serial.println("Am2315: " + responseam);
-        }
+        Serial.println("Neo6m " + payloadNeo6m);
     }
 }
 
@@ -139,7 +77,6 @@ void macronodeRole()
     if (_settingsController->settings.is_macronode_role == true &&
         _settingsController->settings.is_wifiserver_enabled == true)
     {
-        //_loraController->sendMessage("Hola", 0xF3);
         _wifiController->APServerClientHandling();
     }
 }
@@ -199,7 +136,7 @@ void setup()
 {
     Serial.begin(9600);
 
-    deviceInit();
+    _setupController->deviceInit();
 }
 
 void loop()
@@ -211,8 +148,6 @@ void loop()
     handleOta();
     flashingMode();
     staticMode();
-    meteringMode();
-    macronodeRole();
 
     delay(1);
     reset();

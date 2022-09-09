@@ -19,6 +19,7 @@
 // Device
 #include "src/device/localstorage/localstorage.h"
 #include "src/device/settings/settings.h"
+#include "src/device/setup/setup.h"
 
 // Conectivity
 #include "src/connectivity/api/api.h"
@@ -62,12 +63,12 @@ struct ble_config
 
 /* Device */
 Settings *_settingsController;
+Setup *_setupController;
 
 /* Communications */
 Wifi *_wifiController;
 Api *_apiController;
 Ble *_bleController;
-Lora *_loraController;
 
 wifi_credentials _wifiProd;
 wifi_credentials _wifiDev;
