@@ -31,6 +31,9 @@
 #include "src/sensors/virtual32/virtual32.h"
 #include "src/sensors/virtual8266/virtual8266.h"
 
+// Threads
+#include "src/threads/template/template.thread.h"
+
 // Structs
 
 struct stage_config
@@ -75,6 +78,9 @@ wifi_credentials _wifiDev;
 /* Sensors */
 Virtual32 *_virtual32Controller;
 Virtual8266 *_virtual8266Controller;
+
+/* Threads */
+Thread::Template *_templateThread;
 
 unsigned long currentMilliseconds = 0; // stores the value of millis() in each iteration of loop()
 unsigned long previousDeviceCycleMilliseconds = 0;

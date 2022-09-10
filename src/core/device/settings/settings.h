@@ -41,7 +41,7 @@ public:
     static bool is_wifiserver_enabled = false;
     static bool is_wifi_static_ip_enabled = false;
 
-    static long main_device_cycle = 100;
+    static long main_thread_cycle = 100;
     static int wifi_server_ip[4] = {192, 168, 1, 2};
     static int wifi_ap_gateway[4] = {192, 168, 1, 254};
     static int wifi_ap_subnet[4] = {255, 255, 255, 0};

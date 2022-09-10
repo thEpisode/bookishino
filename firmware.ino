@@ -26,12 +26,12 @@ void captureTimestamp()
 /*
  * Validate if device cycle is sync with current time to run the next tasks.
  * It provides multiple "virtual threads" inside main thread
- * 
+ *
  * @return {bool} return if time is inside device cycle
  */
-bool isMainDeviceCycle()
+bool isInThreadCycle(int threadCycle)
 {
-    if (currentMilliseconds - previousDeviceCycleMilliseconds < _settingsController->settings.main_device_cycle)
+    if (currentMilliseconds - previousDeviceCycleMilliseconds < threadCycle)
     {
         return false
     }
@@ -51,7 +51,7 @@ void mainThread()
     requestRoute = _apiController->getRoute("post-insight");
     requestMethod = _apiController->getMethod("post-insight");
 
-    if (!isMainDeviceCycle())
+    if (!isInThreadCycle(_settingsController->settings.main_thread_cycle))
     {
         return;
     }
@@ -60,15 +60,14 @@ void mainThread()
     {
         return;
     }
+}
 
-    Serial.println("Doing something...");
-
-    /* _ds18b20Controller = new Ds18b20(2, "sns-1234-2");
-
-    Serial.println("Reading sen0193...");
-    String payloadSen0193 = _sen0193Controller->response();
-    _wifiController->sendMessage(requestOrigin, requestRoute, payloadSen0193, requestMethod);
-    delay(1000); */
+void threads()
+{
+    if (isInThreadCycle(_templateThread->getCycle()))
+    {
+        _templateThread->run();
+    }
 }
 
 void reset()
@@ -89,6 +88,7 @@ void loop()
 
     _setupController->handleOta();
     mainThread();
+    threads();
 
     delay(1);
 }
