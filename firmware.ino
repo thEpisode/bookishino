@@ -68,6 +68,8 @@ void threads()
     {
         _templateThread->run();
     }
+
+    // TODO: Add all your threads
 }
 
 void reset()
