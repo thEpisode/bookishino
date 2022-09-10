@@ -51,6 +51,8 @@ void mainThread()
     requestRoute = _apiController->getRoute("post-insight");
     requestMethod = _apiController->getMethod("post-insight");
 
+    captureTimestamp();
+
     if (!isInThreadCycle(_settingsController->settings.main_thread_cycle))
     {
         return;
@@ -88,7 +90,6 @@ void setup()
 
 void loop()
 {
-    captureTimestamp();
     mainThread();
     threads();
 
