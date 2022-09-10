@@ -9,7 +9,6 @@
  */
 
 #include <Arduino.h>
-#include <Esp.h>
 
 #include "virtual8266.h"
 

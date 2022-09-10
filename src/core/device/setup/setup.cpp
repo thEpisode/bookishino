@@ -9,6 +9,7 @@
  */
 
 #include "Arduino.h"
+#include <ArduinoOTA.h>
 
 #include "setup.h"
 
@@ -21,6 +22,49 @@ Setup::Setup()
   {
     setProperties();
   }
+}
+
+void handleOta()
+{
+    ArduinoOTA.handle();
+}
+
+void startOta()
+{
+    Serial.println("Setting OTA password");
+    ArduinoOTA.setPassword(_settingsController->settings.ota_password.c_str());
+
+    Serial.println("Declaring OTA events");
+    ArduinoOTA.onStart([]()
+                       {
+              String type;
+              if (ArduinoOTA.getCommand() == U_FLASH)
+                type = "sketch";
+              else // U_SPIFFS
+                type = "filesystem";
+
+              // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
+              Serial.println("Start updating " + type); })
+        .onEnd([]()
+               { Serial.println("\nEnd"); })
+        .onProgress([](unsigned int progress, unsigned int total)
+                    { Serial.printf("Progress: %u%%\r", (progress / (total / 100))); })
+        .onError([](ota_error_t error)
+                 {
+        Serial.printf("Error[%u]: ", error);
+        if (error == OTA_AUTH_ERROR)
+          Serial.println("Auth Failed");
+        else if (error == OTA_BEGIN_ERROR)
+          Serial.println("Begin Failed");
+        else if (error == OTA_CONNECT_ERROR)
+          Serial.println("Connect Failed");
+        else if (error == OTA_RECEIVE_ERROR)
+          Serial.println("Receive Failed");
+        else if (error == OTA_END_ERROR)
+          Serial.println("End Failed"); });
+
+    Serial.println("beginning OTA");
+    ArduinoOTA.begin();
 }
 
 void wifiInit()
@@ -74,7 +118,7 @@ void wifiInit()
     if (_settingsController->settings.is_macronode_role == true &&
         _settingsController->settings.is_wifiserver_enabled == true)
     {
-        _wifiController->enableServer(80, _loraController);
+        _wifiController->enableServer(80);
     }
 }
 
@@ -105,26 +149,6 @@ void bleInit()
     _bleController = new Ble(_bleConfig.deviceName);
 }
 
-void loraInit()
-{
-    Serial.println("Setting up LoRa...");
-    _loraConfig.address = 0xB0;
-    _loraConfig.csPin = 5;
-    _loraConfig.resetPin = 14;
-    _loraConfig.irqPin = 2;
-    _loraConfig.listenMessages = true;
-    _loraConfig.type = lora_type::transceiver;
-    _loraConfig.frequency = 866000000;
-
-    _loraController = new Lora(
-        _loraConfig.csPin,
-        _loraConfig.resetPin,
-        _loraConfig.irqPin,
-        _loraConfig.address,
-        _loraConfig.listenMessages,
-        _loraConfig.frequency);
-}
-
 void setupCommunications()
 {
     Serial.println("Setting up communications...");
@@ -132,11 +156,6 @@ void setupCommunications()
     if (true == _settingsController->settings.is_ble_enabled)
     {
         bleInit();
-    }
-
-    if (true == _settingsController->settings.is_lora_enabled)
-    {
-        loraInit();
     }
 
     if (true == _settingsController->settings.is_wifi_enabled)
@@ -179,6 +198,14 @@ void getSensorsByNodeId()
             // FIXME: Get sensor information
             // sensor.as<Sensor>();
         }
+    }
+}
+
+void enableAPServer()
+{
+    if (_settingsController->settings.is_wifiserver_enabled == true)
+    {
+        _wifiController->APServerClientHandling();
     }
 }
 
@@ -232,3 +259,4 @@ void deviceInit()
     /* Communications */
     setupCommunications();
 }
+

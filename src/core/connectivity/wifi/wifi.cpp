@@ -98,7 +98,7 @@ void Wifi::handleNotFound()
   _server->send(404, "text/plain", message);
 }
 
-void Wifi::handleAPI(Lora *_loraController)
+void Wifi::handleAPI()
 {
   Serial.println("Handling api...");
   String payload = _server->arg("payload");
@@ -109,22 +109,15 @@ void Wifi::handleAPI(Lora *_loraController)
   }
 
   _server->send(200, "application/json", payload);
-
-  if (_loraController->isConnected() == true)
-  {
-    Serial.println("Attempt to send message from LoRa...");
-    _loraController->sendMessage(payload, 0xF3);
-  }
 }
 
-void Wifi::enableServer(int port, Lora *_loraController)
+void Wifi::enableServer(int port)
 {
   Serial.println("Enabling Server...");
   _server = new WebServer(port);
   _server->begin();
 
   _server->on("/", HTTP_GET, std::bind(&Wifi::handleRoot, this));
-  _server->on("/insight", HTTP_POST, std::bind(&Wifi::handleAPI, this, _loraController));
   _server->onNotFound(std::bind(&Wifi::handleNotFound, this));
 }
 

@@ -18,8 +18,6 @@
 #include <WebServer.h>
 #include <WiFi.h>
 
-#include "../lora/lora.h"
-
 typedef struct wifi_credentials
 {
   char *ssid;
@@ -33,7 +31,7 @@ public:
   String connect(String ssid, String password);
   bool isConnected();
   void enableAP(String ssid, String password, int localIp[], int gateway[], int subnet[]);
-  void enableServer(int port, Lora *_loraController);
+  void enableServer(int port);
   void setStaticIp(int localIp[], int gateway[], int subnet[], int primaryDNS[], int secondaryDNS[]);
   void sendMessage(String origin, String endpoint, String payload, String method);
   void APServerClientHandling();
@@ -44,7 +42,7 @@ private:
   String _password;
   WebServer *_server;
   void handleRoot();
-  void handleAPI(Lora *_loraController);
+  void handleAPI();
   void handleNotFound();
 };
 

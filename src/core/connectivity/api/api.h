@@ -37,7 +37,7 @@ public:
   String requestParameters(String endpoint, String parameters, String method);
   String getRoute(String name);
   String getMethod(String name);
-  void handleAPServerRoutes(WiFiClient client /* , Lora &_loraController */);
+  void handleAPServerRoutes(WiFiClient client);
   String getOrigin();
 
 private:

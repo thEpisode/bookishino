@@ -30,11 +30,9 @@ public:
     // Micro-node
     static bool is_wifi_enabled = true;
     static bool is_ble_enabled = true;
-    static bool is_lora_enabled = false;
     static bool is_api_enabled = true;
     static bool is_flash_mode = false;
     static bool is_wifiap_enabled = false;
-    static bool is_static_mode = true;
     static bool is_metering_mode = false;
     static bool is_macronode_role = false;
     static bool is_micronode_role = true;
@@ -43,10 +41,7 @@ public:
     static bool is_wifiserver_enabled = false;
     static bool is_wifi_static_ip_enabled = false;
 
-    static long flash_mode_delay = 60000;
-    static long static_mode_delay = 100000;
-    static long meter_mode_delay = 60000;
-    static long restart_delay = 300000;
+    static long main_device_cycle = 100;
     static int wifi_server_ip[4] = {192, 168, 1, 2};
     static int wifi_ap_gateway[4] = {192, 168, 1, 254};
     static int wifi_ap_subnet[4] = {255, 255, 255, 0};
@@ -60,7 +55,7 @@ public:
     static String wifi_prod_pass = "B00k1sh";
     static String api_dev_origin = "192.168.1.2";
     static String api_prod_origin = "192.168.1.2";
-    static String ota_password = "B00k1sh_OTA";
+    static String ota_password = "B00k1sh_4dm1n_OTA";
     static std::vector<route> routes;
     static std::vector<Sensor> sensors;
   };

@@ -42,7 +42,6 @@ struct device_config
 {
     bool is_wifi_enabled;
     bool is_ble_enabled;
-    bool is_lora_enabled;
     bool is_api_enabled;
     bool is_flash_mode;
     long flash_mode_delay;
@@ -77,8 +76,7 @@ wifi_credentials _wifiDev;
 Virtual32 *_virtual32Controller;
 Virtual8266 *_virtual8266Controller;
 
-unsigned long currentMillis = 0; // stores the value of millis() in each iteration of loop()
-unsigned long previousStaticModeMillis = 0;
-unsigned long previousResetMillis = 0;
+unsigned long currentMilliseconds = 0; // stores the value of millis() in each iteration of loop()
+unsigned long previousDeviceCycleMilliseconds = 0;
 
 #endif
