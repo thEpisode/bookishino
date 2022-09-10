@@ -79,10 +79,10 @@ wifi_credentials _wifiDev;
 Virtual32 *_virtual32Controller;
 Virtual8266 *_virtual8266Controller;
 
-/* Threads */
-Thread::Template *_templateThread;
-
 unsigned long currentMilliseconds = 0; // stores the value of millis() in each iteration of loop()
 unsigned long previousDeviceCycleMilliseconds = 0;
+
+/* Threads */
+Thread::Template *_templateThread;
 
 #endif
