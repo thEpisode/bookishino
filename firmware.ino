@@ -60,6 +60,8 @@ void mainThread()
     {
         return;
     }
+
+    _setupController->handleOta();
 }
 
 void threads()
@@ -87,8 +89,6 @@ void setup()
 void loop()
 {
     captureTimestamp();
-
-    _setupController->handleOta();
     mainThread();
     threads();
 
