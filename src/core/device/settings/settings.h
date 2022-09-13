@@ -40,6 +40,7 @@ public:
     static bool is_weathernode_role = false;
     static bool is_wifiserver_enabled = false;
     static bool is_wifi_static_ip_enabled = false;
+    static bool is_developer_mode = true;
 
     static long main_thread_cycle = 100;
     static int wifi_server_ip[4] = {192, 168, 1, 2};

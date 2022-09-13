@@ -16,15 +16,21 @@
 #include "Arduino.h"
 #include <ArduinoJson.h>
 
-class Setup
-{
-public:
-  Setup();
-  void deviceInit();
+#include "../settings/settings.h"
 
-private:
-  String _filename;
-  String _settingsJson;
-};
+namespace Core
+{
+  class Setup
+  {
+  public:
+    Setup();
+    void deviceInit(Settings *settings);
+
+  private:
+    String _filename;
+    String _settingsJson;
+    Settings *_settings;
+  };
+} // namespace Core
 
 #endif

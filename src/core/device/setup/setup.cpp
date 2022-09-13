@@ -13,6 +13,8 @@
 
 #include "setup.h"
 
+using namespace Core;
+
 Setup::Setup()
 {
   _localStorage = new LocalStorage();
@@ -22,11 +24,6 @@ Setup::Setup()
   {
     setProperties();
   }
-}
-
-void handleOta()
-{
-    ArduinoOTA.handle();
 }
 
 void startOta()
@@ -201,13 +198,6 @@ void getSensorsByNodeId()
     }
 }
 
-void enableAPServer()
-{
-    if (_settingsController->settings.is_wifiserver_enabled == true)
-    {
-        _wifiController->APServerClientHandling();
-    }
-}
 
 void getDeviceInformation()
 {
@@ -249,8 +239,9 @@ void setupDevice()
     _settingsController = new Settings("settings.json");
 }
 
-void deviceInit()
+void deviceInit(Settings *settings)
 {
+    _settings = settings;
     Serial.println("Loading configuration...");
 
     setupStage(true);

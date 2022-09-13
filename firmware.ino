@@ -20,7 +20,7 @@
  */
 void captureTimestamp()
 {
-    currentMilliseconds = millis();
+    firmware.currentMilliseconds = millis();
 }
 
 /*
@@ -31,12 +31,12 @@ void captureTimestamp()
  */
 bool isInThreadCycle(int threadCycle)
 {
-    if (currentMilliseconds - previousDeviceCycleMilliseconds < threadCycle)
+    if (firmware.currentMilliseconds - firmware.previousDeviceCycleMilliseconds < threadCycle)
     {
         return false
     }
 
-    previousDeviceCycleMilliseconds = currentMilliseconds;
+    firmware.previousDeviceCycleMilliseconds = firmware.currentMilliseconds;
 
     return true
 }
@@ -53,39 +53,36 @@ void mainThread()
 
     captureTimestamp();
 
-    if (!isInThreadCycle(_settingsController->settings.main_thread_cycle))
+    if (!isInThreadCycle(firmware._settingsController->settings.main_thread_cycle))
     {
         return;
     }
 
-    if (_wifiController->isConnected() == false)
+    if (firmware._wifiController->isConnected() == false)
     {
         return;
     }
 
-    _setupController->handleOta();
+    firmware._setupController->handleOta();
 }
 
 void threads()
 {
-    if (isInThreadCycle(_templateThread->getCycle()))
+    if (isInThreadCycle(firmware._templateThread->getCycle()))
     {
-        _templateThread->run();
+        firmware._templateThread->run();
     }
 
     // TODO: Add all your threads
-}
-
-void reset()
-{
-    ESP.restart();
 }
 
 void setup()
 {
     Serial.begin(9600);
 
-    _setupController->deviceInit();
+    firmware._settingsController = new Settings("settings.json");
+    firmware._setupController = new Setup();
+    firmware._setupController->setupDevice(firmware._settingsController);
 }
 
 void loop()

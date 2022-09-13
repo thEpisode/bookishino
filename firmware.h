@@ -63,26 +63,27 @@ struct ble_config
     std::string deviceName;
 } _bleConfig;
 
-/* Device */
-Settings *_settingsController;
-Setup *_setupController;
+struct firmware
+{
+    /* Device */
+    Settings *_settingsController;
+    Setup *_setupController;
 
-/* Communications */
-Wifi *_wifiController;
-Api *_apiController;
-Ble *_bleController;
+    /* Communications */
+    Wifi *_wifiController;
+    Api *_apiController;
+    Ble *_bleController;
 
-wifi_credentials _wifiProd;
-wifi_credentials _wifiDev;
+    /* Sensors */
+    Virtual32 *_virtual32Controller;
+    Virtual8266 *_virtual8266Controller;
 
-/* Sensors */
-Virtual32 *_virtual32Controller;
-Virtual8266 *_virtual8266Controller;
+    /* Threads */
+    Thread::Template *_templateThread;
 
-unsigned long currentMilliseconds = 0; // stores the value of millis() in each iteration of loop()
-unsigned long previousDeviceCycleMilliseconds = 0;
-
-/* Threads */
-Thread::Template *_templateThread;
+    /* data */
+    unsigned long currentMilliseconds = 0; // stores the value of millis() in each iteration of loop()
+    unsigned long previousDeviceCycleMilliseconds = 0;
+};
 
 #endif
