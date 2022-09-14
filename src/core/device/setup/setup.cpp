@@ -16,8 +16,8 @@
 using namespace Core;
 
 Setup::Setup(
-    Settings *settings
-        Api *api)
+    Settings *settings,
+    Api *api)
 {
     _settings = settings;
     _api = api;
