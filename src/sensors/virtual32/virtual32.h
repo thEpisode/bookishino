@@ -18,14 +18,14 @@
 class Virtual32
 {
 public:
-  Virtual32(int inputPin, String sensorId);
-  float read();
-  String response();
+    Virtual32(int inputPin, String sensorId);
+    float read();
+    String response();
 
 private:
-  int _pin;
-  const String _sensorName = "virtual32";
-  String _sensorId;
+    int _pin;
+    const String _sensorName = "virtual32";
+    String _sensorId;
 };
 
 #endif

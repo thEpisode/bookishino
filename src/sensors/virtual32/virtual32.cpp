@@ -14,31 +14,31 @@
 
 Virtual32::Virtual32(int inputPin, String sensorId)
 {
-  _pin = inputPin;
-  _sensorId = sensorId;
+    _pin = inputPin;
+    _sensorId = sensorId;
 }
 
 float Virtual32::read()
 {
-  randomSeed(_pin);
-  long randomNumber = random(1, 100);
-  return float(randomNumber);
+    randomSeed(_pin);
+    long randomNumber = random(1, 100);
+    return float(randomNumber);
 }
 
 String Virtual32::response()
 {
-  String payload = "{";
-  payload += "\"success\": \"true\",";
-  payload += "\"result\": {";
-  payload += "\"sensorId\": \"" + _sensorId + "\",";
-  payload += "\"sensorName\": \"" + _sensorName + "\",";
-  payload += "\"payload\": {";
-  payload += "\"value_variant_1\": " + String(read()) + ",";
-  payload += "\"value_variant_2\": " + String(read());
-  payload += "}";
-  payload += "},";
-  payload += "\"message\": \"Operation completed succesfully\"";
-  payload += "}";
+    String payload = "{";
+    payload += "\"success\": \"true\",";
+    payload += "\"result\": {";
+    payload += "\"sensorId\": \"" + _sensorId + "\",";
+    payload += "\"sensorName\": \"" + _sensorName + "\",";
+    payload += "\"payload\": {";
+    payload += "\"value_variant_1\": " + String(read()) + ",";
+    payload += "\"value_variant_2\": " + String(read());
+    payload += "}";
+    payload += "},";
+    payload += "\"message\": \"Operation completed succesfully\"";
+    payload += "}";
 
-  return payload;
+    return payload;
 }
