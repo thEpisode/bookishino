@@ -66,10 +66,10 @@ void backendInit()
     Serial.println("Setting up Backend...");
 
     // Add new routes to settings be request to a desired Backend service
-    _settings->device_config.routes.push_back({"status", "/status", "GET"});
-    _settings->device_config.routes.push_back({"get-node", "/node", "GET"});
-    _settings->device_config.routes.push_back({"get-sensors-by-nodeid", "/sensor", "GET"});
-    _settings->device_config.routes.push_back({"post-insight", "/insight", "POST"});
+    _settings->device_config.backend_routes.push_back({"status", "/status", "GET"});
+    _settings->device_config.backend_routes.push_back({"get-node", "/node", "GET"});
+    _settings->device_config.backend_routes.push_back({"get-sensors-by-nodeid", "/sensor", "GET"});
+    _settings->device_config.backend_routes.push_back({"post-insight", "/insight", "POST"});
 
     if (_settings->device_config.is_developer_mode.developerMode)
     {

@@ -70,7 +70,7 @@ public:
         static String device_name = "d-0012";
         static String settings_filename = "settings.json";
 
-        static std::vector<route> routes;
+        static std::vector<route> backend_routes;
         static std::vector<Sensor> sensors;
     };
 
