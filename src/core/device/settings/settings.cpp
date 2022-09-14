@@ -35,7 +35,7 @@ void Settings::setProperties()
     // FIXME: Set the settings
     /* settings.device_id = doc["id"];
     settings.is_wifi_enabled = doc["is_wifi_enabled"];
-    settings.is_api_enabled = doc["is_api_enabled"];
+    settings.is_backend_enabled = doc["is_backend_enabled"];
     settings.is_ble_enabled = doc["is_ble_enabled"];
     settings.is_flash_mode = doc["is_flash_mode"];
     settings.settings_filename = doc["settings_filename"];

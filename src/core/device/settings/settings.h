@@ -37,9 +37,12 @@ public:
         static String wifi_dev_ssid = "Bookish default dev ssid";
         static String wifi_dev_pass = "B00k1sh";
 
-        // API Server
-        static bool is_api_enabled = true;
+        // Server
         static bool is_server_enabled = false;
+        static int server_port = 80;
+
+        // Backend services
+        static bool is_backend_enabled = true;
         static String api_dev_origin = "192.168.1.2";
         static String api_prod_origin = "api.bookish.com";
 

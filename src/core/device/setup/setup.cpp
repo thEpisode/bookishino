@@ -45,7 +45,7 @@ void setupCommunications()
 {
     Serial.println("Setting up communications...");
 
-    if (_settings->device_config.is_api_enabled)
+    if (_settings->device_config.is_backend_enabled)
     {
         backendInit();
     }
@@ -153,6 +153,6 @@ void enableServer()
 {
     if (_settingsController->settings.is_server_enabled == true)
     {
-        _wifi->enableServer(80);
+        _wifi->enableServer(_settingsController->settings.server_port);
     }
 }
