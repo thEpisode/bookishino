@@ -15,12 +15,12 @@
 
 using namespace Core;
 
-Setup::Setup(
-    Settings *settings,
-    Api *api)
+Setup::Setup(firmware_dependencies &dependencies)
 {
-    _settings = settings;
-    _api = api;
+    _settings = dependencies.settings;
+    _backend = dependencies.backend;
+    _ble = dependencies.ble;
+    _wifi = dependencies.wifi;
 }
 
 /*
@@ -34,9 +34,21 @@ void setupDevice()
     setupCommunications();
 }
 
+void setupStage(bool developerMode)
+{
+    Serial.println("Setting up stage...");
+    Serial.println("Developer mode: " + developerMode ? "Yes" : "No");
+    _settings->device_config.is_developer_mode.developerMode = developerMode;
+}
+
 void setupCommunications()
 {
     Serial.println("Setting up communications...");
+
+    if (_settings->device_config.is_api_enabled)
+    {
+        backendInit();
+    }
 
     if (true == _settings->device_config.is_ble_enabled)
     {
@@ -46,74 +58,12 @@ void setupCommunications()
     if (true == _settings->device_config.is_wifi_enabled)
     {
         wifiInit();
-
-        if (_settings->device_config.is_api_enabled)
-        {
-            apiInit();
-        }
     }
 }
 
-void bleInit()
+void backendInit()
 {
-    Serial.println("Setting up BLE...");
-
-    _bleController = new Ble(_settings->device_config.device_name);
-}
-
-void wifiInit()
-{
-    Serial.println("Setting up Wifi...");
-
-    _wifiController = new Wifi(_settings->device_config.device_id);
-    String localIp = "";
-
-    if (_settings->device_config.is_wifiap_enabled == true)
-    {
-        // Enable Access Point
-        _wifiController->enableAccessPoint(
-            _settings->device_config.ap_ssid,
-            _settings->device_config.ap_pass,
-            _settings->device_config.wifi_server_ip,
-            _settings->device_config.wifi_ap_gateway,
-            _settings->device_config.wifi_ap_subnet);
-    }
-
-    if (_settings->device_config.is_wifi_static_ip_enabled == true)
-    {
-        // Enable static IP
-        _wifiController->setStaticIp(
-            _settings->device_config.wifi_server_ip,
-            _settings->device_config.wifi_ap_gateway,
-            _settings->device_config.wifi_ap_subnet,
-            _settings->device_config.wifi_ap_primary_dns,
-            _settings->device_config.wifi_ap_secondary_dns);
-    }
-
-    if (_settings->device_config.is_developer_mode.developerMode)
-    {
-        Serial.println("Connecting to Wifi as developer mode...");
-
-        localIp = _wifiController->connect(_settings->device_config.wifi_dev_ssid, _settings->device_config.wifi_dev_pass);
-    }
-    else
-    {
-        Serial.println("Connecting to Wifi as production mode...");
-
-        localIp = _wifiController->connect(_settings->device_config.wifi_prod_ssid, _settings->device_config.wifi_prod_pass);
-    }
-
-    if (_settingsController->settings.is_wifiserver_enabled == true)
-    {
-        _wifiController->enableServer(80);
-    }
-
-    startOTA();
-}
-
-void apiInit()
-{
-    Serial.println("Setting up Api...");
+    Serial.println("Setting up Backend...");
 
     // Add new routes to settings be request to a desired Backend service
     _settings->device_config.routes.push_back({"status", "/status", "GET"});
@@ -124,18 +74,85 @@ void apiInit()
     if (_settings->device_config.is_developer_mode.developerMode)
     {
         // Setup development origins
-        _api = new Api(_settings->device_config.api_dev_origin, _settings->device_config.routes);
+        _backend = new Backend(_settings->device_config.api_dev_origin, _settings->device_config.routes);
     }
     else
     {
         // Setup production origins
-        _api = new Api(_settings->device_config.api_prod_origin, _settings->device_config.routes);
+        _backend = new Backend(_settings->device_config.api_prod_origin, _settings->device_config.routes);
     }
 }
 
-void setupStage(bool developerMode)
+void bleInit()
 {
-    Serial.println("Setting up stage...");
-    Serial.println("Developer mode: " + developerMode ? "Yes" : "No");
-    _settings->device_config.is_developer_mode.developerMode = developerMode;
+    Serial.println("Setting up BLE...");
+
+    _ble = new Ble(_settings->device_config.device_name);
+    _ble->startService();
+}
+
+void wifiInit()
+{
+    Serial.println("Setting up Wifi...");
+
+    _wifi = new Wifi(_settings->device_config.device_id);
+
+    enableAccessPoint();
+    enableStaticIP();
+    stablishNetworkConnection();
+    enableServer();
+}
+
+void enableAccessPoint()
+{
+    if (_settings->device_config.is_wifiap_enabled == true)
+    {
+        // Enable Access Point
+        _wifi->enableAccessPoint(
+            _settings->device_config.ap_ssid,
+            _settings->device_config.ap_pass,
+            _settings->device_config.wifi_server_ip,
+            _settings->device_config.wifi_ap_gateway,
+            _settings->device_config.wifi_ap_subnet);
+    }
+}
+
+void enableStaticIP()
+{
+    if (_settings->device_config.is_wifi_static_ip_enabled == true)
+    {
+        // Enable static IP
+        _wifi->setStaticIp(
+            _settings->device_config.wifi_server_ip,
+            _settings->device_config.wifi_ap_gateway,
+            _settings->device_config.wifi_ap_subnet,
+            _settings->device_config.wifi_ap_primary_dns,
+            _settings->device_config.wifi_ap_secondary_dns);
+    }
+}
+
+void stablishNetworkConnection()
+{
+    String localIp = "";
+
+    if (_settings->device_config.is_developer_mode.developerMode)
+    {
+        Serial.println("Connecting to Wifi as developer mode...");
+
+        localIp = _wifi->connect(_settings->device_config.wifi_dev_ssid, _settings->device_config.wifi_dev_pass);
+    }
+    else
+    {
+        Serial.println("Connecting to Wifi as production mode...");
+
+        localIp = _wifi->connect(_settings->device_config.wifi_prod_ssid, _settings->device_config.wifi_prod_pass);
+    }
+}
+
+void enableServer()
+{
+    if (_settingsController->settings.is_server_enabled == true)
+    {
+        _wifi->enableServer(80);
+    }
 }

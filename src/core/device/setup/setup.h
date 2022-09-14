@@ -17,21 +17,26 @@
 #include <ArduinoJson.h>
 
 #include "../settings/settings.h"
-#include "../../connectivity/api/api.h"
+#include "../../connectivity/backend/backend.h"
+#include "../../connectivity/ble/ble.h"
+#include "../../connectivity/wifi/wifi.h"
+#include "../../../../firmware.h"
 
 namespace Core
 {
     class Setup
     {
     public:
-        Setup(Settings *settings, Api *api);
+        Setup(firmware_dependencies &dependencies);
         void setupDevice();
 
     private:
         String _filename;
         String _settingsJson;
         Settings *_settings;
-        Api *_api;
+        Backend *_backend;
+        Ble *_ble;
+        Wifi *_wifi;
     };
 } // namespace Core
 

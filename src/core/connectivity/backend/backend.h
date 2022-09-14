@@ -1,5 +1,5 @@
 /*
- * api.h
+ * backend.h
  *
  * Author: Camilo Rodriguez Cuaran
  * Company: Virtual capital of America
@@ -22,10 +22,10 @@
 
 namespace Core
 {
-    class Api
+    class Backend
     {
     public:
-        Api(String origin, std::vector<route> routes);
+        Backend(String origin, std::vector<route> routes);
         DynamicJsonDocument deserialize(String json);
         std::string serialize(JsonObject json);
         String requestPayload(String endpoint, String payload, String method);

@@ -20,7 +20,7 @@
  */
 void captureTimestamp()
 {
-    firmware.currentMilliseconds = millis();
+    firmware_dependencies.currentMilliseconds = millis();
 }
 
 /*
@@ -31,46 +31,38 @@ void captureTimestamp()
  */
 bool isInThreadCycle(int threadCycle)
 {
-    if (firmware.currentMilliseconds - firmware.previousDeviceCycleMilliseconds < threadCycle)
+    if (firmware_dependencies.currentMilliseconds - firmware_dependencies.previousDeviceCycleMilliseconds < threadCycle)
     {
         return false
     }
 
-    firmware.previousDeviceCycleMilliseconds = firmware.currentMilliseconds;
+    firmware_dependencies.previousDeviceCycleMilliseconds = firmware_dependencies.currentMilliseconds;
 
     return true
 }
 
 void mainThread()
 {
-    String requestRoute = "";
-    String requestMethod = "";
-    String requestOrigin = "";
-
-    requestOrigin = _apiController->getOrigin();
-    requestRoute = _apiController->getRoute("post-insight");
-    requestMethod = _apiController->getMethod("post-insight");
-
     captureTimestamp();
 
-    if (!isInThreadCycle(firmware._settingsController->settings.main_thread_cycle))
+    if (!isInThreadCycle(firmware_dependencies._settingsController->settings.main_thread_cycle))
     {
         return;
     }
 
-    if (firmware._wifiController->isConnected() == false)
+    if (firmware_dependencies._wifiController->isConnected() == false)
     {
         return;
     }
 
-    firmware._setupController->handleOta();
+    firmware_dependencies._setupController->handleOta();
 }
 
 void threads()
 {
-    if (isInThreadCycle(firmware._templateThread->getCycle()))
+    if (isInThreadCycle(firmware_dependencies._templateThread->getCycle()))
     {
-        firmware._templateThread->run();
+        firmware_dependencies._templateThread->run();
     }
 
     // TODO: Add all your threads
@@ -80,10 +72,10 @@ void setup()
 {
     Serial.begin(9600);
 
-    firmware._settingsController = new Settings("settings.json");
+    firmware_dependencies._settingsController = new Settings("settings.json");
 
-    firmware._setupController = new Setup(firmware._settingsController);
-    firmware._setupController->setupDevice();
+    firmware_dependencies._setupController = new Setup(firmware_dependencies);
+    firmware_dependencies._setupController->setupDevice();
 }
 
 void loop()

@@ -25,7 +25,7 @@ void Operations::reset()
 
 void Operations::enableAPServer()
 {
-    if (_settingsController->settings.is_wifiserver_enabled == true)
+    if (_settingsController->settings.is_server_enabled == true)
     {
         _wifiController->APServerClientHandling();
     }

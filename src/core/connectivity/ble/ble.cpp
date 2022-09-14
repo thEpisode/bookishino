@@ -45,11 +45,9 @@ Ble::Ble(std::string deviceName, std::string serviceUuid, std::string characteri
     _serviceUuid = serviceUuid;
     _characteristicUuid = characteristicUuid;
     _defaultvalue = defaultvalue;
-
-    setupBle();
 }
 
-void Ble::setupBle()
+void Ble::startService()
 {
     initializeBleServices();
 

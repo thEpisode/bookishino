@@ -27,6 +27,13 @@ void Template::run()
     /* _ds18b20Controller = new Ds18b20(2, "sns-1234-2");
 
     Serial.println("Reading sen0193...");
+    String requestRoute = "";
+    String requestMethod = "";
+    String requestOrigin = "";
+
+    requestOrigin = _backendController->getOrigin();
+    requestRoute = _backendController->getRoute("post-insight");
+    requestMethod = _backendController->getMethod("post-insight");
     String payloadSen0193 = _sen0193Controller->response();
     _wifiController->sendMessage(requestOrigin, requestRoute, payloadSen0193, requestMethod);
     delay(1000); */

@@ -16,7 +16,7 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include "../localstorage/localstorage.h"
-#include "../../connectivity/api/api.h"
+#include "../../connectivity/backend/backend.h"
 #include "../../../sensors/sensor/sensor.h"
 
 class Settings
@@ -39,7 +39,7 @@ public:
 
         // API Server
         static bool is_api_enabled = true;
-        static bool is_wifiserver_enabled = false;
+        static bool is_server_enabled = false;
         static String api_dev_origin = "192.168.1.2";
         static String api_prod_origin = "api.bookish.com";
 

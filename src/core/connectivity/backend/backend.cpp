@@ -1,5 +1,5 @@
 /*
- * api.cpp
+ * backend.cpp
  *
  * Author: Camilo Rodriguez Cuaran
  * Company: Virtual capital of America
@@ -14,17 +14,17 @@
 #include <ArduinoJson.h>
 
 // Custom libraries
-#include "api.h"
+#include "backend.h"
 
 using namespace Core;
 
-Api::Api(String origin, std::vector<route> routes)
+Backend::Backend(String origin, std::vector<route> routes)
 {
     _origin = origin;
     _routes = routes;
 }
 
-DynamicJsonDocument Api::deserialize(String json)
+DynamicJsonDocument Backend::deserialize(String json)
 {
     DynamicJsonDocument doc(1024);
     deserializeJson(doc, json.c_str());
@@ -32,7 +32,7 @@ DynamicJsonDocument Api::deserialize(String json)
     return doc;
 }
 
-std::string Api::serialize(JsonObject json)
+std::string Backend::serialize(JsonObject json)
 {
     StaticJsonDocument<1024> doc;
 
@@ -46,7 +46,7 @@ std::string Api::serialize(JsonObject json)
     return jsonSerialized;
 }
 
-String Api::requestPayload(String endpoint, String payload, String method)
+String Backend::requestPayload(String endpoint, String payload, String method)
 {
     int httpCode = 0;
     HTTPClient http;
@@ -72,7 +72,7 @@ String Api::requestPayload(String endpoint, String payload, String method)
     return response;
 }
 
-String Api::requestParameters(String endpoint, String parameters, String method)
+String Backend::requestParameters(String endpoint, String parameters, String method)
 {
     int httpCode = 0;
     HTTPClient http;
@@ -99,7 +99,7 @@ String Api::requestParameters(String endpoint, String parameters, String method)
     return response;
 }
 
-String Api::getRoute(String name)
+String Backend::getRoute(String name)
 {
     String path = "";
 
@@ -115,12 +115,12 @@ String Api::getRoute(String name)
     return path;
 }
 
-String Api::getOrigin()
+String Backend::getOrigin()
 {
     return _origin;
 }
 
-String Api::getMethod(String name)
+String Backend::getMethod(String name)
 {
     String method = "";
 

@@ -22,7 +22,7 @@
 #include "src/device/setup/setup.h"
 
 // Conectivity
-#include "src/connectivity/api/api.h"
+#include "src/connectivity/backend/backend.h"
 #include "src/connectivity/ble/ble.h"
 #include "src/connectivity/wifi/wifi.h"
 
@@ -35,16 +35,16 @@
 #include "src/threads/template/template.thread.h"
 
 // Structs
-struct firmware
+struct firmware_dependencies
 {
     /* Device */
-    Settings *_settingsController;
-    Setup *_setupController;
+    Settings *_settings;
+    Setup *_setup;
 
     /* Communications */
-    Wifi *_wifiController;
-    Api *_apiController;
-    Ble *_bleController;
+    Wifi *_wifi;
+    Backend *_backend;
+    Ble *_ble;
 
     /* Sensors */
     Virtual32 *_virtual32Controller;
