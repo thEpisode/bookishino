@@ -54,14 +54,12 @@ String Wifi::connect(String ssid, String password)
 
 bool Wifi::isConnected()
 {
-    if (WiFi.status() != WL_CONNECTED)
-    {
-        return false;
-    }
-    else if (WiFi.status() == WL_CONNECTED)
+    if (WiFi.status() == WL_CONNECTED)
     {
         return true;
     }
+
+    return false;
 }
 
 void Wifi::enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[])
@@ -82,33 +80,9 @@ void Wifi::enableAccessPoint(String ssid, String password, int localIp[], int ga
     Serial.println(IP);
 }
 
-void Wifi::handleRoot()
+void Wifi::APServerClientHandling()
 {
-    Serial.println("Handling root...");
-    String message = "Welcome to this API\n\n";
-
-    _server->send(200, "text/plain", message);
-}
-
-void Wifi::handleNotFound()
-{
-    Serial.println("Handling not found...");
-    String message = "File Not Found\n\n";
-
-    _server->send(404, "text/plain", message);
-}
-
-void Wifi::handleAPI()
-{
-    Serial.println("Handling api...");
-    String payload = _server->arg("payload");
-
-    if (payload.length() <= 0)
-    {
-        return;
-    }
-
-    _server->send(200, "application/json", payload);
+    return _server->handleClient();
 }
 
 void Wifi::enableServer(int port)
@@ -117,7 +91,20 @@ void Wifi::enableServer(int port)
     _server = new WebServer(port);
     _server->begin();
 
-    _server->on("/", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    defineEndpoints();
+}
+
+void Wifi::defineEndpoints()
+{
+    _server->on("/device/status", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/device/restart", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/device/heartbeat", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/device/default-reset", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/access-point/enable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/access-point/disable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/bluetooth/enable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/bluetooth/disable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+
     _server->onNotFound(std::bind(&Wifi::handleNotFound, this));
 }
 
@@ -179,22 +166,33 @@ void Wifi::sendMessage(String origin, String endpoint, String payload, String me
 
         // I will neeed to filter the headers, but first I want to be able to write to TempGraph anything
     }
-    /* HTTPClient http;
-
-    http.begin(endpoint);
-    http.addHeader("Content-Type", "multipart/form-data");
-
-    int httpCode = http.POST("Content-Disposition: form-data; name=\"payload\"\n" + payload); //Send the request
-    String response = http.getString();
-
-    Serial.println(endpoint + ": " + httpCode);
-    Serial.println(response); //Print request response payload
-    Serial.println("===================");
-
-    http.end(); //Close connection */
 }
 
-void Wifi::APServerClientHandling()
+void Wifi::handleRoot()
 {
-    return _server->handleClient();
+    Serial.println("Handling root...");
+    String message = "Welcome to this API\n\n";
+
+    _server->send(200, "text/plain", message);
+}
+
+void Wifi::handleNotFound()
+{
+    Serial.println("Handling not found...");
+    String message = "File Not Found\n\n";
+
+    _server->send(404, "text/plain", message);
+}
+
+void Wifi::handleAPI()
+{
+    Serial.println("Handling api...");
+    String payload = _server->arg("payload");
+
+    if (payload.length() <= 0)
+    {
+        return;
+    }
+
+    _server->send(200, "application/json", payload);
 }
