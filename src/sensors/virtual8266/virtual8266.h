@@ -18,14 +18,14 @@
 class Virtual8266
 {
 public:
-  Virtual8266(int inputPin, String sensorId);
-  float read();
-  String response();
+    Virtual8266(int inputPin, String sensorId);
+    float read();
+    String response();
 
 private:
-  int _pin;
-  const String _sensorName = "Virtual8266";
-  String _sensorId;
+    int _pin;
+    const String _sensorName = "Virtual8266";
+    String _sensorId;
 };
 
 #endif
