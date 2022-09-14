@@ -20,30 +20,30 @@
 
 typedef struct wifi_credentials
 {
-  char *ssid;
-  char *pass;
+    char *ssid;
+    char *pass;
 };
 
 class Wifi
 {
 public:
-  Wifi(String deviceId);
-  String connect(String ssid, String password);
-  bool isConnected();
-  void enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[]);
-  void enableServer(int port);
-  void setStaticIp(int localIp[], int gateway[], int subnet[], int primaryDNS[], int secondaryDNS[]);
-  void sendMessage(String origin, String endpoint, String payload, String method);
-  void APServerClientHandling();
+    Wifi(String deviceId);
+    String connect(String ssid, String password);
+    bool isConnected();
+    void enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[]);
+    void enableServer(int port);
+    void setStaticIp(int localIp[], int gateway[], int subnet[], int primaryDNS[], int secondaryDNS[]);
+    void sendMessage(String origin, String endpoint, String payload, String method);
+    void APServerClientHandling();
 
 private:
-  String _deviceId;
-  String _ssid;
-  String _password;
-  WebServer *_server;
-  void handleRoot();
-  void handleAPI();
-  void handleNotFound();
+    String _deviceId;
+    String _ssid;
+    String _password;
+    WebServer *_server;
+    void handleRoot();
+    void handleAPI();
+    void handleNotFound();
 };
 
 #endif
