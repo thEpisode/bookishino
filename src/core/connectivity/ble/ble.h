@@ -20,22 +20,22 @@
 
 namespace Core
 {
-  class Ble
-  {
-  public:
-    Ble(std::string deviceName, std::string serviceUuid, std::string characteristicUuid, std::string defaultvalue);
-    void startService();
+    class Ble
+    {
+    public:
+        Ble(std::string deviceName, std::string serviceUuid, std::string characteristicUuid, std::string defaultvalue);
+        void startService();
 
-  private:
-    std::string _deviceName;
-    std::string _serviceUuid;
-    std::string _characteristicUuid;
-    std::string _defaultvalue;
-    BLEServer *_bleServer;
-    BLEService *_bleService;
-    BLECharacteristic *_bleDefaultCharacteristic;
-    BLEAdvertising *_bleAdvertising
-  };
+    private:
+        std::string _deviceName;
+        std::string _serviceUuid;
+        std::string _characteristicUuid;
+        std::string _defaultvalue;
+        BLEServer *_bleServer;
+        BLEService *_bleService;
+        BLECharacteristic *_bleDefaultCharacteristic;
+        BLEAdvertising *_bleAdvertising
+    };
 } // namespace Core
 
 #endif

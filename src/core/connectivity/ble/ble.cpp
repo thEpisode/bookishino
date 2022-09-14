@@ -20,72 +20,72 @@ using namespace Core;
 
 class IncomingDefaultDataCallback : public BLECharacteristicCallbacks
 {
-  void onWrite(BLECharacteristic *characteristic)
-  {
-    std::string value = characteristic->getValue();
-
-    if (value.length() <= 0)
+    void onWrite(BLECharacteristic *characteristic)
     {
-      return;
+        std::string value = characteristic->getValue();
+
+        if (value.length() <= 0)
+        {
+            return;
+        }
+
+        Serial.println("==========");
+        Serial.print("BLE value: ");
+        for (int i = 0; i < value.length(); i++)
+            Serial.print(value[i]);
+
+        Serial.println();
+        Serial.println("==========");
     }
-
-    Serial.println("==========");
-    Serial.print("BLE value: ");
-    for (int i = 0; i < value.length(); i++)
-      Serial.print(value[i]);
-
-    Serial.println();
-    Serial.println("==========");
-  }
 };
 
 Ble::Ble(std::string deviceName, std::string serviceUuid, std::string characteristicUuid, std::string defaultvalue)
 {
-  _deviceName = deviceName;
-  _serviceUuid = serviceUuid;
-  _characteristicUuid = characteristicUuid;
-  _defaultvalue = defaultvalue;
+    _deviceName = deviceName;
+    _serviceUuid = serviceUuid;
+    _characteristicUuid = characteristicUuid;
+    _defaultvalue = defaultvalue;
 
-  setupBle();
+    setupBle();
 }
 
 void Ble::setupBle()
 {
-  initializeBleServices();
+    initializeBleServices();
 
-  setupDefaultCharacteristic();
+    setupDefaultCharacteristic();
 
-  startBleService()
+    startBleService()
 }
 
 void Ble::initializeBleServices()
 {
-  BLEDevice::init(_deviceName);
-  _bleServer = BLEDevice::createServer();
-  _bleService = pServer->createService(_serviceUuid);
+    BLEDevice::init(_deviceName);
+    _bleServer = BLEDevice::createServer();
+    _bleService = pServer->createService(_serviceUuid);
 }
 
 void Ble::setupDefaultCharacteristic()
 {
-  // Create a new characteristic to income data
-  _bleDefaultCharacteristic = _bleService->createCharacteristic(
-      _characteristicUuid,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+    // Create a new characteristic to income data
+    _bleDefaultCharacteristic = _bleService->createCharacteristic(
+        _characteristicUuid,
+        BLECharacteristic::PROPERTY_READ |
+            BLECharacteristic::PROPERTY_WRITE);
 
-  // Setup the callback
-  _bleDefaultCharacteristic->setCallbacks(new IncomingDefaultDataCallback());
+    // Setup the callback
+    _bleDefaultCharacteristic->setCallbacks(new IncomingDefaultDataCallback());
 
-  // Set default value to characteristic
-  _bleDefaultCharacteristic->setValue(_defaultvalue);
+    // Set default value to characteristic
+    _bleDefaultCharacteristic->setValue(_defaultvalue);
 }
 
 void Ble::startBleService()
 {
-  // Start service
-  _bleService->start();
+    // Start service
+    _bleService->start();
 
-  // Initialize BLE advertising
-  _bleAdvertising = pServer->getAdvertising();
-  _bleAdvertising->start();
+    // Initialize BLE advertising
+    _bleAdvertising = pServer->getAdvertising();
+    _bleAdvertising->start();
 }
