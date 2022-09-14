@@ -21,18 +21,18 @@
 
 namespace Core
 {
-  class Setup
-  {
-  public:
-    Setup(Settings *settings, Api *api);
-    void setupDevice();
+    class Setup
+    {
+    public:
+        Setup(Settings *settings, Api *api);
+        void setupDevice();
 
-  private:
-    String _filename;
-    String _settingsJson;
-    Settings *_settings;
-    Api *_api;
-  };
+    private:
+        String _filename;
+        String _settingsJson;
+        Settings *_settings;
+        Api *_api;
+    };
 } // namespace Core
 
 #endif
