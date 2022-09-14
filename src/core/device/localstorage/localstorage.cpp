@@ -16,106 +16,106 @@
 
 LocalStorage::LocalStorage()
 {
-  if (!SPIFFS.begin(true))
-  {
-    return;
-  }
+    if (!SPIFFS.begin(true))
+    {
+        return;
+    }
 }
 
 DynamicJsonDocument LocalStorage::deserialize(String json)
 {
-  DynamicJsonDocument doc(1024);
-  deserializeJson(doc, json.c_str());
+    DynamicJsonDocument doc(1024);
+    deserializeJson(doc, json.c_str());
 
-  return doc;
+    return doc;
 }
 
 std::string LocalStorage::serialize(JsonObject json)
 {
-  StaticJsonDocument<1024> doc;
+    StaticJsonDocument<1024> doc;
 
-  for (JsonObject::iterator it = json.begin(); it != json.end(); ++it)
-  {
-    doc[it->key()] = it->value();
-  }
-  std::string jsonSerialized;
-  serializeJson(doc, jsonSerialized);
+    for (JsonObject::iterator it = json.begin(); it != json.end(); ++it)
+    {
+        doc[it->key()] = it->value();
+    }
+    std::string jsonSerialized;
+    serializeJson(doc, jsonSerialized);
 
-  return jsonSerialized;
+    return jsonSerialized;
 }
 
 String LocalStorage::read(String filename)
 {
-  String content = "";
-  filename = "/" + filename;
-  File file = SPIFFS.open(filename, "r");
+    String content = "";
+    filename = "/" + filename;
+    File file = SPIFFS.open(filename, "r");
 
-  if (!file)
-  {
-    return "";
-  }
+    if (!file)
+    {
+        return "";
+    }
 
-  while (file.available())
-  {
-    content += (char)file.read();
-  }
+    while (file.available())
+    {
+        content += (char)file.read();
+    }
 
-  file.close();
-  return content;
+    file.close();
+    return content;
 }
 
 int LocalStorage::overwrite(String filename, std::string payload)
 {
-  int error = 0;
-  filename = "/" + filename;
-  char *payloadChar = new char[strlen(payload.c_str())];
+    int error = 0;
+    filename = "/" + filename;
+    char *payloadChar = new char[strlen(payload.c_str())];
 
-  if (!SPIFFS.exists(filename))
-  {
-    error = -3;
-  }
+    if (!SPIFFS.exists(filename))
+    {
+        error = -3;
+    }
 
-  strcpy(payloadChar, payload.c_str());
-  File file = SPIFFS.open(filename, "w+");
+    strcpy(payloadChar, payload.c_str());
+    File file = SPIFFS.open(filename, "w+");
 
-  if (!file)
-  {
-    error = -2;
-  }
+    if (!file)
+    {
+        error = -2;
+    }
 
-  if (!file.print(payloadChar))
-  {
-    error = -1;
-  }
+    if (!file.print(payloadChar))
+    {
+        error = -1;
+    }
 
-  file.close();
-  return error;
+    file.close();
+    return error;
 }
 
 int LocalStorage::append(std::string filename, std::string payload)
 {
-  int error = 0;
-  filename = "/" + filename;
-  char *payloadChar = new char[strlen(payload.c_str())];
+    int error = 0;
+    filename = "/" + filename;
+    char *payloadChar = new char[strlen(payload.c_str())];
 
-  if (!SPIFFS.exists(filename.c_str()))
-  {
-    error = -3;
-  }
+    if (!SPIFFS.exists(filename.c_str()))
+    {
+        error = -3;
+    }
 
-  strcpy(payloadChar, payload.c_str());
-  File file = SPIFFS.open(filename.c_str(), "a+");
+    strcpy(payloadChar, payload.c_str());
+    File file = SPIFFS.open(filename.c_str(), "a+");
 
-  if (!file)
-  {
-    error = -2;
-  }
+    if (!file)
+    {
+        error = -2;
+    }
 
-  if (!file.print(payloadChar))
-  {
-    error = -1;
-  }
+    if (!file.print(payloadChar))
+    {
+        error = -1;
+    }
 
-  file.close();
-  return error;
+    file.close();
+    return error;
 }
