@@ -14,9 +14,9 @@
 
 using namespace Core;
 
-Ota::Ota(String filename)
+Ota::Ota(String password)
 {
-  _filename = filename;
+    _password = password;
 }
 
 void Ota::start()

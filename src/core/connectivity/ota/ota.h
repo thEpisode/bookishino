@@ -28,7 +28,7 @@ namespace Core
         void Ota::start();
 
     private:
-        String _filename;
+        String _password;
     };
 } // namespace Core
 
