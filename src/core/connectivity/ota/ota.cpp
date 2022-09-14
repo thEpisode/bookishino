@@ -48,16 +48,16 @@ void Ota::setupEvents()
     Serial.println("Declaring OTA events...");
 
     // Declaration of start event
-    ArduinoOTA.onStart(otaOnStart);
+    ArduinoOTA.onStart(&Ota::otaOnStart);
 
     // Declaration of end event
-    ArduinoOTA.onEnd(otaOnEnd);
+    ArduinoOTA.onEnd(&Ota::otaOnEnd);
 
     // Declaration of progress event
-    ArduinoOTA.onProgress(otaOnProgress);
+    ArduinoOTA.onProgress(&Ota::otaOnProgress);
 
     // Declaration of error event
-    ArduinoOTA.onError(otaOnError);
+    ArduinoOTA.onError(&Ota::otaOnError);
 
     Serial.println("beginning OTA service...");
 }
