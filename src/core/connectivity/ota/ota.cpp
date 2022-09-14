@@ -62,6 +62,7 @@ void Ota::setupEvents()
     Serial.println("beginning OTA service...");
 }
 
+// typedef THandlerFunction: https://github.com/esp8266/Arduino/blob/master/libraries/ArduinoOTA/ArduinoOTA.h
 THandlerFunction Ota::otaOnStart()
 {
     String type;
