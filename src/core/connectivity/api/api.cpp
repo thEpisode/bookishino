@@ -8,11 +8,15 @@
  * Updated on: Sep 09, 2022
  */
 
+// System libraries
 #include "Arduino.h"
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
+// Custom libraries
 #include "api.h"
+
+using namespace Core;
 
 Api::Api(String origin, std::vector<route> routes)
 {

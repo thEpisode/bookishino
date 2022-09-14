@@ -17,19 +17,21 @@
 #include <ArduinoJson.h>
 
 #include "../settings/settings.h"
+#include "../../connectivity/api/api.h"
 
 namespace Core
 {
   class Setup
   {
   public:
-    Setup();
-    void deviceInit(Settings *settings);
+    Setup(Settings *settings, Api *api);
+    void setupDevice();
 
   private:
     String _filename;
     String _settingsJson;
     Settings *_settings;
+    Api *_api;
   };
 } // namespace Core
 

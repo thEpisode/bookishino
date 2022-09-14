@@ -81,8 +81,9 @@ void setup()
     Serial.begin(9600);
 
     firmware._settingsController = new Settings("settings.json");
-    firmware._setupController = new Setup();
-    firmware._setupController->setupDevice(firmware._settingsController);
+
+    firmware._setupController = new Setup(firmware._settingsController);
+    firmware._setupController->setupDevice();
 }
 
 void loop()

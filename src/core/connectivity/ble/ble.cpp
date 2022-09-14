@@ -9,44 +9,83 @@
  */
 // https://randomnerdtutorials.com/esp32-bluetooth-low-energy-ble-arduino-ide/
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEServer.h>
 
 #include "ble.h"
 
-Ble::Ble(std::string deviceName)
+using namespace Core;
+
+class IncomingDefaultDataCallback : public BLECharacteristicCallbacks
+{
+  void onWrite(BLECharacteristic *characteristic)
+  {
+    std::string value = characteristic->getValue();
+
+    if (value.length() <= 0)
+    {
+      return;
+    }
+
+    Serial.println("==========");
+    Serial.print("BLE value: ");
+    for (int i = 0; i < value.length(); i++)
+      Serial.print(value[i]);
+
+    Serial.println();
+    Serial.println("==========");
+  }
+};
+
+Ble::Ble(std::string deviceName, std::string serviceUuid, std::string characteristicUuid, std::string defaultvalue)
 {
   _deviceName = deviceName;
-  createServer();
+  _serviceUuid = serviceUuid;
+  _characteristicUuid = characteristicUuid;
+  _defaultvalue = defaultvalue;
+
+  setupBle();
 }
 
-void Ble::createServer()
+void Ble::setupBle()
+{
+  initializeBleServices();
+
+  setupDefaultCharacteristic();
+
+  startBleService()
+}
+
+void Ble::initializeBleServices()
 {
   BLEDevice::init(_deviceName);
   _bleServer = BLEDevice::createServer();
-
-  BLEDevice::startAdvertising();
+  _bleService = pServer->createService(_serviceUuid);
 }
 
-void Ble::createService(std::string serviceUuid, std::string characteristicUuid, std::string value)
+void Ble::setupDefaultCharacteristic()
 {
-  BLEService *bleService = _bleServer->createService(serviceUuid);
-  BLECharacteristic *bleCharacteristic = bleService->createCharacteristic(
-      characteristicUuid,
+  // Create a new characteristic to income data
+  _bleDefaultCharacteristic = _bleService->createCharacteristic(
+      _characteristicUuid,
       BLECharacteristic::PROPERTY_READ |
           BLECharacteristic::PROPERTY_WRITE);
 
-  bleCharacteristic->setValue(value);
-  bleService->start();
+  // Setup the callback
+  _bleDefaultCharacteristic->setCallbacks(new IncomingDefaultDataCallback());
 
-  BLEAdvertising *bleAdvertising = BLEDevice::getAdvertising();
-  bleAdvertising->addServiceUUID(serviceUuid);
-  bleAdvertising->setScanResponse(true);
-  bleAdvertising->setMinPreferred(0x06); // functions that help with iPhone connections issue
-  bleAdvertising->setMinPreferred(0x12);
-  BLEDevice::getAdvertising()->stop();
-  delay(200);
-  BLEDevice::startAdvertising();
+  // Set default value to characteristic
+  _bleDefaultCharacteristic->setValue(_defaultvalue);
+}
+
+void Ble::startBleService()
+{
+  // Start service
+  _bleService->start();
+
+  // Initialize BLE advertising
+  _bleAdvertising = pServer->getAdvertising();
+  _bleAdvertising->start();
 }

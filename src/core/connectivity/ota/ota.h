@@ -1,5 +1,5 @@
 /*
- * operations.h
+ * ota.h
  *
  * Author: Camilo Rodriguez Cuaran
  * Company: Virtual capital of America
@@ -10,23 +10,25 @@
 
 #pragma once
 
-#ifndef OPERATIONS_H
-#define OPERATIONS_H
+#ifndef SETUP_H
+#define SETUP_H
 
-#include <Arduino.h>
+#include "Arduino.h"
+#include <ArduinoJson.h>
+
+#include "../settings/settings.h"
 
 namespace Core
 {
-    class Operations
+    class Ota
     {
     public:
-        Operations();
-        void Operations::reset();
-        void Operations::enableAPServer();
+        Ota(Settings *settings);
+        void Ota::handle();
+        void Ota::start();
 
     private:
         String _filename;
-        String _settingsJson;
     };
 } // namespace Core
 

@@ -8,220 +8,128 @@
  * Updated on: Sep 09, 2022
  */
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include <ArduinoOTA.h>
 
 #include "setup.h"
 
 using namespace Core;
 
-Setup::Setup()
+Setup::Setup(
+    Settings *settings
+    Api *api)
 {
-  _localStorage = new LocalStorage();
-  _settingsJson = _localStorage->read(filename);
-
-  if (_settingsJson.length() > 0)
-  {
-    setProperties();
-  }
+    _settings = settings;
+    _api = api;
 }
 
-void startOta()
+/*
+ * Initialize configurations and start all services.
+ *
+ * @return {void}
+ */
+void setupDevice()
 {
-    Serial.println("Setting OTA password");
-    ArduinoOTA.setPassword(_settingsController->settings.ota_password.c_str());
-
-    Serial.println("Declaring OTA events");
-    ArduinoOTA.onStart([]()
-                       {
-              String type;
-              if (ArduinoOTA.getCommand() == U_FLASH)
-                type = "sketch";
-              else // U_SPIFFS
-                type = "filesystem";
-
-              // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
-              Serial.println("Start updating " + type); })
-        .onEnd([]()
-               { Serial.println("\nEnd"); })
-        .onProgress([](unsigned int progress, unsigned int total)
-                    { Serial.printf("Progress: %u%%\r", (progress / (total / 100))); })
-        .onError([](ota_error_t error)
-                 {
-        Serial.printf("Error[%u]: ", error);
-        if (error == OTA_AUTH_ERROR)
-          Serial.println("Auth Failed");
-        else if (error == OTA_BEGIN_ERROR)
-          Serial.println("Begin Failed");
-        else if (error == OTA_CONNECT_ERROR)
-          Serial.println("Connect Failed");
-        else if (error == OTA_RECEIVE_ERROR)
-          Serial.println("Receive Failed");
-        else if (error == OTA_END_ERROR)
-          Serial.println("End Failed"); });
-
-    Serial.println("beginning OTA");
-    ArduinoOTA.begin();
-}
-
-void wifiInit()
-{
-    Serial.println("Setting up Wifi...");
-
-    _wifiController = new Wifi(_settingsController->settings.device_id);
-    String localIp = "";
-
-    if (_settingsController->settings.is_wifiap_enabled == true)
-    {
-        _wifiController->enableAP(
-            _settingsController->settings.ap_ssid,
-            _settingsController->settings.ap_pass,
-            _settingsController->settings.wifi_server_ip,
-            _settingsController->settings.wifi_ap_gateway,
-            _settingsController->settings.wifi_ap_subnet);
-    }
-
-    if (_settingsController->settings.is_macronode_role == true &&
-        _settingsController->settings.is_wifi_static_ip_enabled == true)
-    {
-        _wifiController->setStaticIp(
-            _settingsController->settings.wifi_server_ip,
-            _settingsController->settings.wifi_ap_gateway,
-            _settingsController->settings.wifi_ap_subnet,
-            _settingsController->settings.wifi_ap_primary_dns,
-            _settingsController->settings.wifi_ap_secondary_dns);
-    }
-
-    if (_settingsController->settings.is_micronode_role == true ||
-        _settingsController->settings.is_radiationnode_role == true ||
-        _settingsController->settings.is_weathernode_role == true)
-    {
-        if (_stageConfig.developerMode)
-        {
-            Serial.println("Connecting to Wifi as developer mode...");
-
-            localIp = _wifiController->connect(_settingsController->settings.wifi_dev_ssid, _settingsController->settings.wifi_dev_pass);
-        }
-        else
-        {
-            Serial.println("Connecting to Wifi as production mode...");
-
-            localIp = _wifiController->connect(_settingsController->settings.wifi_prod_ssid, _settingsController->settings.wifi_prod_pass);
-        }
-
-        startOta();
-    }
-
-    if (_settingsController->settings.is_macronode_role == true &&
-        _settingsController->settings.is_wifiserver_enabled == true)
-    {
-        _wifiController->enableServer(80);
-    }
-}
-
-void apiInit()
-{
-    Serial.println("Setting up Api...");
-
-    _settingsController->settings.routes.push_back({"status", "/status", "GET"});
-    _settingsController->settings.routes.push_back({"get-node", "/node", "GET"});
-    _settingsController->settings.routes.push_back({"get-sensors-by-nodeid", "/sensor", "GET"});
-    _settingsController->settings.routes.push_back({"post-insight", "/insight", "POST"});
-
-    if (_stageConfig.developerMode)
-    {
-        _apiController = new Api(_settingsController->settings.api_dev_origin, _settingsController->settings.routes);
-    }
-    else
-    {
-        _apiController = new Api(_settingsController->settings.api_prod_origin, _settingsController->settings.routes);
-    }
-}
-
-void bleInit()
-{
-    Serial.println("Setting up BLE...");
-    _bleConfig.deviceName = "d-0012";
-
-    _bleController = new Ble(_bleConfig.deviceName);
+    setupStage();
+    setupCommunications();
 }
 
 void setupCommunications()
 {
     Serial.println("Setting up communications...");
 
-    if (true == _settingsController->settings.is_ble_enabled)
+    if (true == _settings->device_config.is_ble_enabled)
     {
         bleInit();
     }
 
-    if (true == _settingsController->settings.is_wifi_enabled)
+    if (true == _settings->device_config.is_wifi_enabled)
     {
         wifiInit();
 
-        if (_settingsController->settings.is_api_enabled)
+        if (_settings->device_config.is_api_enabled)
         {
             apiInit();
         }
     }
 }
 
-void setupSensors()
+void bleInit()
 {
-    getSensorsByNodeId();
+    Serial.println("Setting up BLE...");
+
+    _bleController = new Ble(_settings->device_config.device_name);
 }
 
-void getSensorsByNodeId()
+void wifiInit()
 {
-    String requestRoute = "";
-    String requestMethod = "";
-    String response = "";
+    Serial.println("Setting up Wifi...");
 
-    requestRoute = _apiController->getRoute("get-sensors-by-nodeid");
-    requestMethod = _apiController->getMethod("get-sensors-by-nodeid");
-    Serial.println(requestMethod + " " + requestRoute + "?id=" + _settingsController->settings.device_id);
-    response = _apiController->requestParameters(requestRoute, "id=" + _settingsController->settings.device_id, requestMethod);
-    Serial.println(response);
+    _wifiController = new Wifi(_settings->device_config.device_id);
+    String localIp = "";
 
-    DynamicJsonDocument responseJson = _apiController->deserialize(response);
-    bool success = responseJson["success"];
-
-    if (success == true)
+    if (_settings->device_config.is_wifiap_enabled == true)
     {
-        JsonArray result = responseJson["result"];
-
-        for (JsonVariant sensor : result)
-        {
-            // FIXME: Get sensor information
-            // sensor.as<Sensor>();
-        }
+        // Enable Access Point
+        _wifiController->enableAccessPoint(
+            _settings->device_config.ap_ssid,
+            _settings->device_config.ap_pass,
+            _settings->device_config.wifi_server_ip,
+            _settings->device_config.wifi_ap_gateway,
+            _settings->device_config.wifi_ap_subnet);
     }
+
+    if (_settings->device_config.is_wifi_static_ip_enabled == true)
+    {
+        // Enable static IP
+        _wifiController->setStaticIp(
+            _settings->device_config.wifi_server_ip,
+            _settings->device_config.wifi_ap_gateway,
+            _settings->device_config.wifi_ap_subnet,
+            _settings->device_config.wifi_ap_primary_dns,
+            _settings->device_config.wifi_ap_secondary_dns);
+    }
+
+    if (_settings->device_config.is_developer_mode.developerMode)
+    {
+        Serial.println("Connecting to Wifi as developer mode...");
+
+        localIp = _wifiController->connect(_settings->device_config.wifi_dev_ssid, _settings->device_config.wifi_dev_pass);
+    }
+    else
+    {
+        Serial.println("Connecting to Wifi as production mode...");
+
+        localIp = _wifiController->connect(_settings->device_config.wifi_prod_ssid, _settings->device_config.wifi_prod_pass);
+    }
+
+    if (_settingsController->settings.is_wifiserver_enabled == true)
+    {
+        _wifiController->enableServer(80);
+    }
+
+    startOTA();
 }
 
-
-void getDeviceInformation()
+void apiInit()
 {
-    /* Getting information to backend */
-    Serial.println("Getting settings...");
-    String requestRoute = "";
-    String requestMethod = "";
-    String response = "";
+    Serial.println("Setting up Api...");
 
-    requestRoute = _apiController->getRoute("get-node");
-    requestMethod = _apiController->getMethod("get-node");
-    Serial.println(requestMethod + " " + requestRoute + "?id=" + _settingsController->settings.device_id);
-    response = _apiController->requestParameters(requestRoute, "id=" + _settingsController->settings.device_id, requestMethod);
-    Serial.println(response);
+    // Add new routes to settings be request to a desired Backend service
+    _settings->device_config.routes.push_back({"status", "/status", "GET"});
+    _settings->device_config.routes.push_back({"get-node", "/node", "GET"});
+    _settings->device_config.routes.push_back({"get-sensors-by-nodeid", "/sensor", "GET"});
+    _settings->device_config.routes.push_back({"post-insight", "/insight", "POST"});
 
-    DynamicJsonDocument responseJson = _apiController->deserialize(response);
-    bool success = responseJson["success"];
-
-    if (success == true)
+    if (_settings->device_config.is_developer_mode.developerMode)
     {
-        _settingsController->settings.is_flash_mode = false;
-
-        /* Sensors */
-        setupSensors();
+        // Setup development origins
+        _api = new Api(_settings->device_config.api_dev_origin, _settings->device_config.routes);
+    }
+    else
+    {
+        // Setup production origins
+        _api = new Api(_settings->device_config.api_prod_origin, _settings->device_config.routes);
     }
 }
 
@@ -229,25 +137,5 @@ void setupStage(bool developerMode)
 {
     Serial.println("Setting up stage...");
     Serial.println("Developer mode: " + developerMode ? "Yes" : "No");
-    _stageConfig.developerMode = developerMode;
+    _settings->device_config.is_developer_mode.developerMode = developerMode;
 }
-
-void setupDevice()
-{
-    Serial.println("Setting up device....");
-
-    _settingsController = new Settings("settings.json");
-}
-
-void deviceInit(Settings *settings)
-{
-    _settings = settings;
-    Serial.println("Loading configuration...");
-
-    setupStage(true);
-    setupDevice();
-
-    /* Communications */
-    setupCommunications();
-}
-

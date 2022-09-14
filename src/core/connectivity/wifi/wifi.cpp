@@ -64,7 +64,7 @@ bool Wifi::isConnected()
   }
 }
 
-void Wifi::enableAP(String ssid, String password, int localIp[], int gateway[], int subnet[])
+void Wifi::enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[])
 {
   Serial.println("Enabling Access Point...");
   IPAddress local_IP(localIp[0], localIp[1], localIp[2], localIp[3]);

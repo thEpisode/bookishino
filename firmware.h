@@ -35,34 +35,6 @@
 #include "src/threads/template/template.thread.h"
 
 // Structs
-
-struct stage_config
-{
-    bool developerMode;
-} _stageConfig;
-
-struct device_config
-{
-    bool is_wifi_enabled;
-    bool is_ble_enabled;
-    bool is_api_enabled;
-    bool is_flash_mode;
-    long flash_mode_delay;
-    String device_id;
-    String settings_filename;
-    std::vector<route> routes;
-} _deviceConfig;
-
-struct api_origin
-{
-    String origin;
-} _apiProduction, _apiDev;
-
-struct ble_config
-{
-    std::string deviceName;
-} _bleConfig;
-
 struct firmware
 {
     /* Device */

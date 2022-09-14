@@ -18,19 +18,24 @@
 #include <BLEUtils.h>
 #include <BLEServer.h>
 
-#define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
-#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
-
-class Ble
+namespace Core
 {
-public:
-  Ble(std::string deviceName);
-  void createServer();
-  void createService(std::string serviceUuid, std::string characteristicUuid, std::string value);
+  class Ble
+  {
+  public:
+    Ble(std::string deviceName, std::string serviceUuid, std::string characteristicUuid, std::string defaultvalue);
+    void startService();
 
-private:
-  std::string _deviceName;
-  BLEServer *_bleServer;
-};
+  private:
+    std::string _deviceName;
+    std::string _serviceUuid;
+    std::string _characteristicUuid;
+    std::string _defaultvalue;
+    BLEServer *_bleServer;
+    BLEService *_bleService;
+    BLECharacteristic *_bleDefaultCharacteristic;
+    BLEAdvertising *_bleAdvertising
+  };
+} // namespace Core
 
 #endif

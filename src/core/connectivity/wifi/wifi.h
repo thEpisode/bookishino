@@ -30,7 +30,7 @@ public:
   Wifi(String deviceId);
   String connect(String ssid, String password);
   bool isConnected();
-  void enableAP(String ssid, String password, int localIp[], int gateway[], int subnet[]);
+  void enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[]);
   void enableServer(int port);
   void setStaticIp(int localIp[], int gateway[], int subnet[], int primaryDNS[], int secondaryDNS[]);
   void sendMessage(String origin, String endpoint, String payload, String method);

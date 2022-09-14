@@ -23,11 +23,6 @@ void Operations::reset()
     ESP.restart();
 }
 
-void Operations::handleOta()
-{
-    ArduinoOTA.handle();
-}
-
 void Operations::enableAPServer()
 {
     if (_settingsController->settings.is_wifiserver_enabled == true)

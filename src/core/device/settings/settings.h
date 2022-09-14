@@ -27,36 +27,49 @@ public:
 
   typedef struct device_config
   {
-    // Micro-node
+    /* Communications */
+    // WIFI
     static bool is_wifi_enabled = true;
-    static bool is_ble_enabled = true;
-    static bool is_api_enabled = true;
-    static bool is_flash_mode = false;
-    static bool is_wifiap_enabled = false;
-    static bool is_metering_mode = false;
-    static bool is_macronode_role = false;
-    static bool is_micronode_role = true;
-    static bool is_radiationnode_role = false;
-    static bool is_weathernode_role = false;
-    static bool is_wifiserver_enabled = false;
     static bool is_wifi_static_ip_enabled = false;
-    static bool is_developer_mode = true;
-
-    static long main_thread_cycle = 100;
     static int wifi_server_ip[4] = {192, 168, 1, 2};
+    static String wifi_prod_ssid = "Bookish default prod ssid";
+    static String wifi_prod_pass = "B00k1sh";
+    static String wifi_dev_ssid = "Bookish default dev ssid";
+    static String wifi_dev_pass = "B00k1sh";
+
+    // API Server
+    static bool is_api_enabled = true;
+    static bool is_wifiserver_enabled = false;
+    static String api_dev_origin = "192.168.1.2";
+    static String api_prod_origin = "api.bookish.com";
+
+    // WIFI Access Point
+    static bool is_wifiap_enabled = false;
+    static String ap_ssid = "Bookish default ssid";
+    static String ap_pass = "B00k1sh";
     static int wifi_ap_gateway[4] = {192, 168, 1, 254};
     static int wifi_ap_subnet[4] = {255, 255, 255, 0};
     static int wifi_ap_primary_dns[4] = {8, 8, 8, 8};
     static int wifi_ap_secondary_dns[4] = {8, 8, 4, 4};
-    static String device_id = "nod-1c29d6b882";
-    static String settings_filename = "settings.json";
-    static String ap_ssid = "Bookish default ssid";
-    static String ap_pass = "B00k1sh";
-    static String wifi_prod_ssid = "Bookish default ssid";
-    static String wifi_prod_pass = "B00k1sh";
-    static String api_dev_origin = "192.168.1.2";
-    static String api_prod_origin = "192.168.1.2";
+
+    // Bluetooth Low Energy (BLE)
+    static bool is_ble_enabled = true;
+    static String service_uuid "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
+    static String characteristic_uuid "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+
+    // Over The Air (OTA)
+    static bool is_ota_enabled = true;
     static String ota_password = "B00k1sh_4dm1n_OTA";
+
+    // Developer
+    static bool is_developer_mode = true;
+
+    /* Device */
+    static long main_thread_cycle = 100;
+    static String device_id = "nod-1c29d6b882";
+    static String device_name = "d-0012";
+    static String settings_filename = "settings.json";
+
     static std::vector<route> routes;
     static std::vector<Sensor> sensors;
   };
