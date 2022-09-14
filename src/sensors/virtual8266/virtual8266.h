@@ -13,7 +13,7 @@
 #ifndef VIRTUAL8266_H
 #define VIRTUAL8266_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 class Virtual8266
 {

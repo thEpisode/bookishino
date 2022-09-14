@@ -13,7 +13,7 @@
 #ifndef VIRTUAL32_H
 #define VIRTUAL32_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 class Virtual32
 {

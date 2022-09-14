@@ -13,7 +13,7 @@
 #ifndef TEMPLATE_THREAD_H
 #define TEMPLATE_THREAD_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 namespace Thread
 {

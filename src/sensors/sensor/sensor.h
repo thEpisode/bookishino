@@ -13,7 +13,7 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 typedef struct Sensor
 {

@@ -13,8 +13,8 @@
 #ifndef LOCALSTORAGE_H
 #define LOCALSTORAGE_H
 
-#include "Arduino.h"
-#include "SPIFFS.h"
+#include <Arduino.h>
+#include <SPIFFS.h>
 #include <ArduinoJson.h>
 
 class LocalStorage

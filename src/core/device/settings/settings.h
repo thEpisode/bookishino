@@ -13,11 +13,11 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include <ArduinoJson.h>
 #include "../localstorage/localstorage.h"
 #include "../../connectivity/api/api.h"
-#include "../../sensors/sensor/sensor.h"
+#include "../../../sensors/sensor/sensor.h"
 
 class Settings
 {

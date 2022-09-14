@@ -13,7 +13,7 @@
 #ifndef SETUP_H
 #define SETUP_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include <ArduinoJson.h>
 
 #include "../settings/settings.h"
