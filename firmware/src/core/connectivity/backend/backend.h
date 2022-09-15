@@ -24,6 +24,13 @@
 
 namespace Core
 {
+    struct route
+    {
+        String name;
+        String endpoint;
+        String method;
+    };
+
     class Backend
     {
     public:
@@ -41,13 +48,6 @@ namespace Core
         String _origin;
         String _endpoint;
         std::vector<Core::route> _routes;
-    };
-
-    struct route
-    {
-        String name;
-        String endpoint;
-        String method;
     };
 } // namespace core
 

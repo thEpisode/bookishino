@@ -34,7 +34,7 @@ namespace Core
         BLEServer *_bleServer;
         BLEService *_bleService;
         BLECharacteristic *_bleDefaultCharacteristic;
-        BLEAdvertising *_bleAdvertising
+        BLEAdvertising *_bleAdvertising;
     };
 } // namespace Core
 
