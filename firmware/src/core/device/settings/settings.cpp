@@ -15,9 +15,9 @@
 #include <ArduinoJson.h>
 #include "../localstorage/localstorage.h"
 
-Core::Settings::Settings(String filename)
+Core::Settings::Settings(settings_filename)
 {
-    _filename = filename;
+    _filename = device.settings_filename;
     _localStorage = new LocalStorage();
     _settingsJson = _localStorage->read(filename);
 

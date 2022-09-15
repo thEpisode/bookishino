@@ -10,29 +10,29 @@
 
 #pragma once
 
-#ifndef SETUP_H
-#define SETUP_H
+#ifndef SETUPP_H
+#define SETUPP_H
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
 
+#include "../../firmware/firmware.h"
 #include "../settings/settings.h"
 #include "../../connectivity/backend/backend.h"
 #include "../../connectivity/ble/ble.h"
 #include "../../connectivity/wifi/wifi.h"
-#include "../../../../firmware.h"
 
 namespace Core
 {
     class Setup
     {
     public:
-        Setup(firmware_dependencies &dependencies);
+        Setup();
         void setupDevice();
 
     private:
         // Default properties
-        firmware_dependencies *_dependencies;
+        Core::Firmware *firmware;
         Settings *_settings;
         
         // Custom properties

@@ -14,7 +14,7 @@
 
 #include "localstorage.h"
 
-LocalStorage::LocalStorage()
+Core::LocalStorage::LocalStorage()
 {
     if (!SPIFFS.begin(true))
     {
@@ -22,7 +22,7 @@ LocalStorage::LocalStorage()
     }
 }
 
-DynamicJsonDocument LocalStorage::deserialize(String json)
+DynamicJsonDocument Core::LocalStorage::deserialize(String json)
 {
     DynamicJsonDocument doc(1024);
     deserializeJson(doc, json.c_str());
@@ -30,7 +30,7 @@ DynamicJsonDocument LocalStorage::deserialize(String json)
     return doc;
 }
 
-std::string LocalStorage::serialize(JsonObject json)
+std::string Core::LocalStorage::serialize(JsonObject json)
 {
     StaticJsonDocument<1024> doc;
 
@@ -44,7 +44,7 @@ std::string LocalStorage::serialize(JsonObject json)
     return jsonSerialized;
 }
 
-String LocalStorage::read(String filename)
+String Core::LocalStorage::read(String filename)
 {
     String content = "";
     filename = "/" + filename;
@@ -64,7 +64,7 @@ String LocalStorage::read(String filename)
     return content;
 }
 
-int LocalStorage::overwrite(String filename, std::string payload)
+int Core::LocalStorage::overwrite(String filename, std::string payload)
 {
     int error = 0;
     filename = "/" + filename;
@@ -92,7 +92,7 @@ int LocalStorage::overwrite(String filename, std::string payload)
     return error;
 }
 
-int LocalStorage::append(std::string filename, std::string payload)
+int Core::LocalStorage::append(std::string filename, std::string payload)
 {
     int error = 0;
     filename = "/" + filename;

@@ -12,20 +12,20 @@
 
 #include "virtual32.h"
 
-Virtual32::Virtual32(int inputPin, String sensorId)
+Sensor::Virtual32::Virtual32(int inputPin, String sensorId)
 {
     _pin = inputPin;
     _sensorId = sensorId;
 }
 
-float Virtual32::read()
+float Sensor::Virtual32::read()
 {
     randomSeed(_pin);
     long randomNumber = random(1, 100);
     return float(randomNumber);
 }
 
-String Virtual32::response()
+String Sensor::Virtual32::response()
 {
     String payload = "{";
     payload += "\"success\": \"true\",";

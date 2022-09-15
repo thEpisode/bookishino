@@ -19,6 +19,7 @@
 #include <WiFi.h>
 
 #include "../../../../firmware.h"
+#include "../../device/settings/settings.h"
 
 typedef struct wifi_credentials
 {
@@ -31,7 +32,7 @@ namespace Core
     class Wifi
     {
     public:
-        Wifi(firmware_dependencies &dependencies);
+        Wifi();
         String connect(String ssid, String password);
         bool isConnected();
         void enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[]);
@@ -41,7 +42,7 @@ namespace Core
         void APServerClientHandling();
 
     private:
-        firmware_dependencies *_dependencies;
+        Core::Firmware *firmware;
         Settings *_settings;
 
         String _deviceId;

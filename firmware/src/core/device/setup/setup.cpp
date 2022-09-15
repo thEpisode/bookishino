@@ -13,13 +13,10 @@
 
 #include "setup.h"
 
-Core::Setup::Setup(firmware_dependencies &dependencies)
+Core::Setup::Setup()
 {
-    _dependencies = dependencies;
-    _settings = _dependencies.settings;
-    _backend = _dependencies.backend;
-    _ble = _dependencies.ble;
-    _wifi = _dependencies.wifi;
+    // Initialize firmware instance
+    firmware = firmware->getInstance();
 }
 
 /*
@@ -37,24 +34,24 @@ void Core::Setup::setupStage(bool developerMode)
 {
     Serial.println("Setting up stage...");
     Serial.println("Developer mode: " + developerMode ? "Yes" : "No");
-    _settings->device_config.is_developer_mode.developerMode = developerMode;
+    firmware->settings()->device.is_developer_mode.developerMode = developerMode;
 }
 
 void Core::Setup::setupCommunications()
 {
     Serial.println("Setting up communications...");
 
-    if (_settings->device_config.is_backend_enabled)
+    if (firmware->settings()->device.is_backend_enabled)
     {
         backendInit();
     }
 
-    if (true == _settings->device_config.is_ble_enabled)
+    if (true == firmware->settings()->device.is_ble_enabled)
     {
         bleInit();
     }
 
-    if (true == _settings->device_config.is_wifi_enabled)
+    if (true == firmware->settings()->device.is_wifi_enabled)
     {
         wifiInit();
     }
@@ -65,20 +62,20 @@ void Core::Setup::backendInit()
     Serial.println("Setting up Backend...");
 
     // Add new routes to settings be request to a desired Backend service
-    _settings->device_config.backend_routes.push_back({"status", "/status", "GET"});
-    _settings->device_config.backend_routes.push_back({"get-node", "/node", "GET"});
-    _settings->device_config.backend_routes.push_back({"get-sensors-by-nodeid", "/sensor", "GET"});
-    _settings->device_config.backend_routes.push_back({"post-insight", "/insight", "POST"});
+    firmware->settings()->device.backend_routes.push_back({"status", "/status", "GET"});
+    firmware->settings()->device.backend_routes.push_back({"get-node", "/node", "GET"});
+    firmware->settings()->device.backend_routes.push_back({"get-sensors-by-nodeid", "/sensor", "GET"});
+    firmware->settings()->device.backend_routes.push_back({"post-insight", "/insight", "POST"});
 
-    if (_settings->device_config.is_developer_mode.developerMode)
+    if (firmware->settings()->device.is_developer_mode.developerMode)
     {
         // Setup development origins
-        _backend = new Backend(_settings->device_config.api_dev_origin, _settings->device_config.routes);
+        firmware->setBackend(firmware->settings()->device.api_dev_origin, firmware->settings()->device.routes);
     }
     else
     {
         // Setup production origins
-        _backend = new Backend(_settings->device_config.api_prod_origin, _settings->device_config.routes);
+        firmware->setBackend(firmware->settings()->device.api_prod_origin, firmware->settings()->device.routes);
     }
 }
 
@@ -86,15 +83,19 @@ void Core::Setup::bleInit()
 {
     Serial.println("Setting up BLE...");
 
-    _ble = new Ble(_settings->device_config.device_name);
-    _ble->startService();
+    firmware->setBle(
+        firmware->settings()->device.device_name,
+        firmware->settings()->device.service_uuid,
+        firmware->settings()->device.characteristic_uuid,
+        firmware->settings()->device.default_value);
+    firmware->ble()->startService();
 }
 
 void Core::Setup::wifiInit()
 {
     Serial.println("Setting up Wifi...");
 
-    _wifi = new Wifi(_dependencies);
+    firmware->setWifi();
 
     enableAccessPoint();
     enableStaticIP();
@@ -104,29 +105,29 @@ void Core::Setup::wifiInit()
 
 void Core::Setup::enableAccessPoint()
 {
-    if (_settings->device_config.is_wifiap_enabled == true)
+    if (firmware->settings()->device.is_wifiap_enabled == true)
     {
         // Enable Access Point
-        _wifi->enableAccessPoint(
-            _settings->device_config.ap_ssid,
-            _settings->device_config.ap_pass,
-            _settings->device_config.wifi_server_ip,
-            _settings->device_config.wifi_ap_gateway,
-            _settings->device_config.wifi_ap_subnet);
+        firmware->wifi()->enableAccessPoint(
+            firmware->settings()->device.ap_ssid,
+            firmware->settings()->device.ap_pass,
+            firmware->settings()->device.wifi_server_ip,
+            firmware->settings()->device.wifi_ap_gateway,
+            firmware->settings()->device.wifi_ap_subnet);
     }
 }
 
 void Core::Setup::enableStaticIP()
 {
-    if (_settings->device_config.is_wifi_static_ip_enabled == true)
+    if (firmware->settings()->device.is_wifi_static_ip_enabled == true)
     {
         // Enable static IP
-        _wifi->setStaticIp(
-            _settings->device_config.wifi_server_ip,
-            _settings->device_config.wifi_ap_gateway,
-            _settings->device_config.wifi_ap_subnet,
-            _settings->device_config.wifi_ap_primary_dns,
-            _settings->device_config.wifi_ap_secondary_dns);
+        firmware->wifi()->setStaticIp(
+            firmware->settings()->device.wifi_server_ip,
+            firmware->settings()->device.wifi_ap_gateway,
+            firmware->settings()->device.wifi_ap_subnet,
+            firmware->settings()->device.wifi_ap_primary_dns,
+            firmware->settings()->device.wifi_ap_secondary_dns);
     }
 }
 
@@ -134,24 +135,24 @@ void Core::Setup::stablishNetworkConnection()
 {
     String localIp = "";
 
-    if (_settings->device_config.is_developer_mode.developerMode)
+    if (firmware->settings()->device.is_developer_mode.developerMode)
     {
         Serial.println("Connecting to Wifi as developer mode...");
 
-        localIp = _wifi->connect(_settings->device_config.wifi_dev_ssid, _settings->device_config.wifi_dev_pass);
+        localIp = firmware->wifi()->connect(firmware->settings()->device.wifi_dev_ssid, firmware->settings()->device.wifi_dev_pass);
     }
     else
     {
         Serial.println("Connecting to Wifi as production mode...");
 
-        localIp = _wifi->connect(_settings->device_config.wifi_prod_ssid, _settings->device_config.wifi_prod_pass);
+        localIp = _wifirmware->wifi() fi->connect(firmware->settings()->device.wifi_prod_ssid, firmware->settings()->device.wifi_prod_pass);
     }
 }
 
 void Core::Setup::enableServer()
 {
-    if (_settingsController->settings.is_server_enabled == true)
+    if (firmware->settings()->device.is_server_enabled == true)
     {
-        _wifi->enableServer(_settingsController->settings.server_port);
+        firmware->wifi()->enableServer(firmware->settings()->device.server_port);
     }
 }

@@ -15,17 +15,20 @@
 
 #include <Arduino.h>
 
-class Virtual32
+namespace Sensor
 {
-public:
-    Virtual32(int inputPin, String sensorId);
-    float read();
-    String response();
+    class Virtual32
+    {
+    public:
+        Virtual32(int inputPin, String sensorId);
+        float read();
+        String response();
 
-private:
-    int _pin;
-    const String _sensorName = "virtual32";
-    String _sensorId;
-};
+    private:
+        int _pin;
+        const String _sensorName = "virtual32";
+        String _sensorId;
+    };
+} // namespace Sensor
 
 #endif

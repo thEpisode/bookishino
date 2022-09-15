@@ -12,20 +12,20 @@
 
 #include "virtual8266.h"
 
-Virtual8266::Virtual8266(int inputPin, String sensorId)
+Sensor::Virtual8266::Virtual8266(int inputPin, String sensorId)
 {
     _pin = inputPin;
     _sensorId = sensorId;
 }
 
-float Virtual8266::read()
+float Sensor::Virtual8266::read()
 {
     randomSeed(_pin);
     long randomNumber = random(1, 100);
     return float(randomNumber);
 }
 
-String Virtual8266::response()
+String Sensor::Virtual8266::response()
 {
     String payload = "{";
     payload += "\"success\": \"true\",";

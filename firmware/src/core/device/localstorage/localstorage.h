@@ -17,17 +17,20 @@
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
 
-class LocalStorage
+namespace Core
 {
-public:
-    LocalStorage();
-    DynamicJsonDocument deserialize(String json);
-    std::string serialize(JsonObject json);
-    String read(String filename);
-    int overwrite(String filename, std::string payload);
-    int append(std::string filename, std::string payload);
+    class LocalStorage
+    {
+    public:
+        LocalStorage();
+        DynamicJsonDocument deserialize(String json);
+        std::string serialize(JsonObject json);
+        String read(String filename);
+        int overwrite(String filename, std::string payload);
+        int append(std::string filename, std::string payload);
 
-private:
-};
+    private:
+    };
+} // namespace Core
 
 #endif

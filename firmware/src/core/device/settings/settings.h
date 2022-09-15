@@ -62,6 +62,7 @@ namespace Core
             const bool is_ble_enabled = true;
             const String service_uuid = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
             const String characteristic_uuid = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+            const String default_value = "my_default_value"
 
             // Over The Air (OTA)
             const bool is_ota_enabled = true;
@@ -80,7 +81,7 @@ namespace Core
             const std::vector<Sensor> sensors;
         };
 
-        struct device_config settings;
+        struct device_config device;
 
     private:
         String _filename;
