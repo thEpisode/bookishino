@@ -17,14 +17,14 @@
 #include <ArduinoJson.h>
 
 // Device
-#include "src/device/localstorage/localstorage.h"
-#include "src/device/settings/settings.h"
-#include "src/device/setup/setup.h"
+#include "src/core/device/localstorage/localstorage.h"
+#include "src/core/device/settings/settings.h"
+#include "src/core/device/setup/setup.h"
 
 // Conectivity
-#include "src/connectivity/backend/backend.h"
-#include "src/connectivity/ble/ble.h"
-#include "src/connectivity/wifi/wifi.h"
+#include "src/core/connectivity/backend/backend.h"
+#include "src/core/connectivity/ble/ble.h"
+#include "src/core/connectivity/wifi/wifi.h"
 
 // Sensors
 #include "src/sensors/sensor/sensor.h"
@@ -38,13 +38,13 @@
 struct firmware_dependencies
 {
     /* Device */
-    Settings *_settings;
-    Setup *_setup;
+    Core::Settings *_settings;
+    Core::Setup *_setup;
 
     /* Communications */
-    Wifi *_wifi;
-    Backend *_backend;
-    Ble *_ble;
+    Core::Wifi *_wifi;
+    Core::Backend *_backend;
+    Core::Ble *_ble;
 
     /* Sensors */
     Virtual32 *_virtual32Controller;

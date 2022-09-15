@@ -1,5 +1,5 @@
 # bookish
-Fast project template for embedded devices based in Arduino architectures like ESP32 or ESP8266
+Baseline project for expert embedded device developers based in Arduino architectures ESP32
 
 ## Installation
 

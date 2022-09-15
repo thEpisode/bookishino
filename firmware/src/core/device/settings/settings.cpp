@@ -15,7 +15,7 @@
 #include <ArduinoJson.h>
 #include "../localstorage/localstorage.h"
 
-Settings::Settings(String filename)
+Core::Settings::Settings(String filename)
 {
     _filename = filename;
     _localStorage = new LocalStorage();
@@ -27,7 +27,7 @@ Settings::Settings(String filename)
     }
 }
 
-void Settings::setProperties()
+void Core::Settings::setProperties()
 {
     DynamicJsonDocument doc(1024);
     deserializeJson(doc, _settingsJson.c_str());

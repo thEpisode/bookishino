@@ -26,30 +26,33 @@ typedef struct wifi_credentials
     char *pass;
 };
 
-class Wifi
+namespace Core
 {
-public:
-    Wifi(firmware_dependencies &dependencies);
-    String connect(String ssid, String password);
-    bool isConnected();
-    void enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[]);
-    void enableServer(int port);
-    void setStaticIp(int localIp[], int gateway[], int subnet[], int primaryDNS[], int secondaryDNS[]);
-    void sendMessage(String origin, String endpoint, String payload, String method);
-    void APServerClientHandling();
+    class Wifi
+    {
+    public:
+        Wifi(firmware_dependencies &dependencies);
+        String connect(String ssid, String password);
+        bool isConnected();
+        void enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[]);
+        void enableServer(int port);
+        void setStaticIp(int localIp[], int gateway[], int subnet[], int primaryDNS[], int secondaryDNS[]);
+        void sendMessage(String origin, String endpoint, String payload, String method);
+        void APServerClientHandling();
 
-private:
-    firmware_dependencies *_dependencies;
-    Settings *_settings;
+    private:
+        firmware_dependencies *_dependencies;
+        Settings *_settings;
 
-    String _deviceId;
-    String _ssid;
-    String _password;
-    WebServer *_server;
+        String _deviceId;
+        String _ssid;
+        String _password;
+        WebServer *_server;
 
-    void handleRoot();
-    void handleAPI();
-    void handleNotFound();
-};
+        void handleRoot();
+        void handleAPI();
+        void handleNotFound();
+    };
+} // namespace Core
 
 #endif

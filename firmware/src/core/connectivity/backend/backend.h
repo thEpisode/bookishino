@@ -17,6 +17,8 @@
 #include <ArduinoJson.h>
 #include <WiFi.h>
 
+#include "../../device/settings/settings.h"
+
 #ifndef API_H
 #define API_H
 
@@ -25,7 +27,7 @@ namespace Core
     class Backend
     {
     public:
-        Backend(String origin, std::vector<route> routes);
+        Backend(String origin, std::vector<Core::route> routes);
         DynamicJsonDocument deserialize(String json);
         std::string serialize(JsonObject json);
         String requestPayload(String endpoint, String payload, String method);
@@ -38,15 +40,15 @@ namespace Core
     private:
         String _origin;
         String _endpoint;
-        std::vector<route> _routes;
+        std::vector<Core::route> _routes;
+    };
+
+    struct route
+    {
+        String name;
+        String endpoint;
+        String method;
     };
 } // namespace core
-
-struct route
-{
-    String name;
-    String endpoint;
-    String method;
-};
 
 #endif

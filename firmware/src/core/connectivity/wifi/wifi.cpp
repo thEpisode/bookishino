@@ -12,14 +12,14 @@
 
 #include "wifi.h"
 
-Wifi::Wifi(firmware_dependencies &dependencies)
+Core::Wifi::Wifi(firmware_dependencies &dependencies)
 {
     _dependencies = dependencies;
     
     _deviceId = _settings->device_config.device_id;
 }
 
-String Wifi::connect(String ssid, String password)
+String Core::Wifi::connect(String ssid, String password)
 {
     Serial.println("Connecting to " + ssid + " with password " + password);
 
@@ -54,7 +54,7 @@ String Wifi::connect(String ssid, String password)
     return ipStr;
 }
 
-bool Wifi::isConnected()
+bool Core::Wifi::isConnected()
 {
     if (WiFi.status() == WL_CONNECTED)
     {
@@ -64,7 +64,7 @@ bool Wifi::isConnected()
     return false;
 }
 
-void Wifi::enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[])
+void Core::Wifi::enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[])
 {
     Serial.println("Enabling Access Point...");
     IPAddress local_IP(localIp[0], localIp[1], localIp[2], localIp[3]);
@@ -82,12 +82,12 @@ void Wifi::enableAccessPoint(String ssid, String password, int localIp[], int ga
     Serial.println(IP);
 }
 
-void Wifi::APServerClientHandling()
+void Core::Wifi::APServerClientHandling()
 {
     return _server->handleClient();
 }
 
-void Wifi::enableServer(int port)
+void Core::Wifi::enableServer(int port)
 {
     Serial.println("Enabling Server...");
     _server = new WebServer(port);
@@ -96,7 +96,7 @@ void Wifi::enableServer(int port)
     defineEndpoints();
 }
 
-void Wifi::defineEndpoints()
+void Core::Wifi::defineEndpoints()
 {
     _server->on("/api/device/status", HTTP_GET, std::bind(&Wifi::handleRoot, this));
     _server->on("/api/device/restart", HTTP_GET, std::bind(&Wifi::handleRoot, this));
@@ -111,7 +111,7 @@ void Wifi::defineEndpoints()
     _server->onNotFound(std::bind(&Wifi::handleNotFound, this));
 }
 
-void Wifi::setStaticIp(int localIp[], int gateway[], int subnet[], int primaryDNS[], int secondaryDNS[])
+void Core::Wifi::setStaticIp(int localIp[], int gateway[], int subnet[], int primaryDNS[], int secondaryDNS[])
 {
     Serial.println("Enabling static ip...");
     IPAddress local_IP(localIp[0], localIp[1], localIp[2], localIp[3]);
@@ -130,7 +130,7 @@ void Wifi::setStaticIp(int localIp[], int gateway[], int subnet[], int primaryDN
     }
 }
 
-void Wifi::sendMessage(String origin, String endpoint, String payload, String method)
+void Core::Wifi::sendMessage(String origin, String endpoint, String payload, String method)
 {
     WiFiClient client;
     const int httpPort = 80;
@@ -171,7 +171,7 @@ void Wifi::sendMessage(String origin, String endpoint, String payload, String me
     }
 }
 
-void Wifi::handleRoot()
+void Core::Wifi::handleRoot()
 {
     Serial.println("Handling root...");
     String message = "Welcome to this API\n\n";
@@ -179,7 +179,7 @@ void Wifi::handleRoot()
     _server->send(200, "text/plain", message);
 }
 
-void Wifi::handleNotFound()
+void Core::Wifi::handleNotFound()
 {
     Serial.println("Handling not found...");
     String message = "File Not Found\n\n";
@@ -187,7 +187,7 @@ void Wifi::handleNotFound()
     _server->send(404, "text/plain", message);
 }
 
-void Wifi::handleAPI()
+void Core::Wifi::handleAPI()
 {
     Serial.println("Handling api...");
     String payload = _server->arg("payload");
