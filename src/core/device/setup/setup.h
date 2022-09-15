@@ -31,12 +31,16 @@ namespace Core
         void setupDevice();
 
     private:
-        String _filename;
-        String _settingsJson;
+        // Default properties
+        firmware_dependencies *_dependencies;
         Settings *_settings;
+        
+        // Custom properties
         Backend *_backend;
         Ble *_ble;
         Wifi *_wifi;
+        String _filename;
+        String _settingsJson;
     };
 } // namespace Core
 

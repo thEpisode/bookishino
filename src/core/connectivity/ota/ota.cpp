@@ -13,16 +13,14 @@
 
 #include "ota.h"
 
-using namespace Core;
-
-Ota::Ota(String password)
+Core::Ota::Ota(String password)
 {
     _password = password;
 
     setupOta();
 }
 
-void Ota::setupOta()
+void Core::Ota::setupOta()
 {
     setupAdminPassword();
 
@@ -32,38 +30,38 @@ void Ota::setupOta()
     ArduinoOTA.begin();
 }
 
-void Ota::handle()
+void Core::Ota::handle()
 {
     ArduinoOTA.handle();
 }
 
-void Ota::setupAdminPassword()
+void Core::Ota::setupAdminPassword()
 {
     Serial.println("Setting OTA password...");
     ArduinoOTA.setPassword(_password.c_str());
 }
 
-void Ota::setupEvents()
+void Core::Ota::setupEvents()
 {
     Serial.println("Declaring OTA events...");
 
     // Declaration of start event
-    ArduinoOTA.onStart(&Ota::otaOnStart);
+    ArduinoOTA.onStart(&Core::Ota::otaOnStart);
 
     // Declaration of end event
-    ArduinoOTA.onEnd(&Ota::otaOnEnd);
+    ArduinoOTA.onEnd(&Core::Ota::otaOnEnd);
 
     // Declaration of progress event
-    ArduinoOTA.onProgress(&Ota::otaOnProgress);
+    ArduinoOTA.onProgress(&Core::Ota::otaOnProgress);
 
     // Declaration of error event
-    ArduinoOTA.onError(&Ota::otaOnError);
+    ArduinoOTA.onError(&Core::Ota::otaOnError);
 
     Serial.println("beginning OTA service...");
 }
 
 // typedef THandlerFunction: https://github.com/esp8266/Arduino/blob/master/libraries/ArduinoOTA/ArduinoOTA.h
-THandlerFunction Ota::otaOnStart()
+THandlerFunction Core::Ota::otaOnStart()
 {
     String type;
     if (ArduinoOTA.getCommand() == U_FLASH)
@@ -79,17 +77,17 @@ THandlerFunction Ota::otaOnStart()
     Serial.println("Start updating " + type);
 }
 
-THandlerFunction Ota::otaOnEnd()
+THandlerFunction Core::Ota::otaOnEnd()
 {
     Serial.println("\nEnd");
 }
 
-THandlerFunction_Progress Ota::otaOnProgress(unsigned int progress, unsigned int total)
+THandlerFunction_Progress Core::Ota::otaOnProgress(unsigned int progress, unsigned int total)
 {
     Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
 }
 
-THandlerFunction_Error Ota::otaOnError(ota_error_t error)
+THandlerFunction_Error Core::Ota::otaOnError(ota_error_t error)
 {
     Serial.printf("OTA Service Error[%u]: ", error);
 

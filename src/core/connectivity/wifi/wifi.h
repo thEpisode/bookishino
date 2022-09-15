@@ -18,6 +18,8 @@
 #include <WebServer.h>
 #include <WiFi.h>
 
+#include "../../../../firmware.h"
+
 typedef struct wifi_credentials
 {
     char *ssid;
@@ -27,7 +29,7 @@ typedef struct wifi_credentials
 class Wifi
 {
 public:
-    Wifi(String deviceId);
+    Wifi(firmware_dependencies &dependencies);
     String connect(String ssid, String password);
     bool isConnected();
     void enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[]);
@@ -37,10 +39,14 @@ public:
     void APServerClientHandling();
 
 private:
+    firmware_dependencies *_dependencies;
+    Settings *_settings;
+
     String _deviceId;
     String _ssid;
     String _password;
     WebServer *_server;
+
     void handleRoot();
     void handleAPI();
     void handleNotFound();

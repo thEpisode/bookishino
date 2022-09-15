@@ -16,8 +16,6 @@
 
 #include "ble.h"
 
-using namespace Core;
-
 class IncomingDefaultDataCallback : public BLECharacteristicCallbacks
 {
     void onWrite(BLECharacteristic *characteristic)
@@ -39,7 +37,7 @@ class IncomingDefaultDataCallback : public BLECharacteristicCallbacks
     }
 };
 
-Ble::Ble(std::string deviceName, std::string serviceUuid, std::string characteristicUuid, std::string defaultvalue)
+Core::Ble::Ble(std::string deviceName, std::string serviceUuid, std::string characteristicUuid, std::string defaultvalue)
 {
     _deviceName = deviceName;
     _serviceUuid = serviceUuid;
@@ -47,7 +45,7 @@ Ble::Ble(std::string deviceName, std::string serviceUuid, std::string characteri
     _defaultvalue = defaultvalue;
 }
 
-void Ble::startService()
+void Core::Ble::startService()
 {
     initializeBleServices();
 
@@ -56,14 +54,14 @@ void Ble::startService()
     startBleService()
 }
 
-void Ble::initializeBleServices()
+void Core::Ble::initializeBleServices()
 {
     BLEDevice::init(_deviceName);
     _bleServer = BLEDevice::createServer();
     _bleService = pServer->createService(_serviceUuid);
 }
 
-void Ble::setupDefaultCharacteristic()
+void Core::Ble::setupDefaultCharacteristic()
 {
     // Create a new characteristic to income data
     _bleDefaultCharacteristic = _bleService->createCharacteristic(
@@ -78,7 +76,7 @@ void Ble::setupDefaultCharacteristic()
     _bleDefaultCharacteristic->setValue(_defaultvalue);
 }
 
-void Ble::startBleService()
+void Core::Ble::startBleService()
 {
     // Start service
     _bleService->start();

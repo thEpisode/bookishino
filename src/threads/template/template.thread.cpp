@@ -12,15 +12,13 @@
 
 #include "template.thread.h"
 
-using namespace Thread;
-
-Template::Template(int threadCycle, String threadName)
+Thread::Template::Template(int threadCycle, String threadName)
 {
     _threadCycle = threadCycle;
     _threadName = threadName;
 }
 
-void Template::run()
+void Thread::Template::run()
 {
     Serial.println("Running thread...");
 
@@ -39,7 +37,7 @@ void Template::run()
     delay(1000); */
 }
 
-int Template::getCycle()
+int Thread::Template::getCycle()
 {
     return _threadCycle;
 }

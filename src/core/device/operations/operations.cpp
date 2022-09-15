@@ -12,18 +12,16 @@
 
 #include "operations.h"
 
-using namespace Core;
-
-Operations::Operations()
+Core::Operations::Operations()
 {
 }
 
-void Operations::reset()
+void Core::Operations::reset()
 {
     ESP.restart();
 }
 
-void Operations::enableAPServer()
+void Core::Operations::enableAPServer()
 {
     if (_settingsController->settings.is_server_enabled == true)
     {

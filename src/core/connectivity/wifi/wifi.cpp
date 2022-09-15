@@ -12,9 +12,11 @@
 
 #include "wifi.h"
 
-Wifi::Wifi(String deviceId)
+Wifi::Wifi(firmware_dependencies &dependencies)
 {
-    _deviceId = deviceId;
+    _dependencies = dependencies;
+    
+    _deviceId = _settings->device_config.device_id;
 }
 
 String Wifi::connect(String ssid, String password)
@@ -96,14 +98,15 @@ void Wifi::enableServer(int port)
 
 void Wifi::defineEndpoints()
 {
-    _server->on("/device/status", HTTP_GET, std::bind(&Wifi::handleRoot, this));
-    _server->on("/device/restart", HTTP_GET, std::bind(&Wifi::handleRoot, this));
-    _server->on("/device/heartbeat", HTTP_GET, std::bind(&Wifi::handleRoot, this));
-    _server->on("/device/default-reset", HTTP_GET, std::bind(&Wifi::handleRoot, this));
-    _server->on("/access-point/enable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
-    _server->on("/access-point/disable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
-    _server->on("/bluetooth/enable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
-    _server->on("/bluetooth/disable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/api/device/status", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/api/device/restart", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/api/device/heartbeat", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/api/device/default-reset", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/api/access-point/enable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/api/access-point/disable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/api/bluetooth/enable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/api/bluetooth/disable", HTTP_GET, std::bind(&Wifi::handleRoot, this));
+    _server->on("/api/thread/handle", HTTP_GET, std::bind(&Wifi::handleAPI, this));
 
     _server->onNotFound(std::bind(&Wifi::handleNotFound, this));
 }

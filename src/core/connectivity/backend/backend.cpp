@@ -16,15 +16,13 @@
 // Custom libraries
 #include "backend.h"
 
-using namespace Core;
-
-Backend::Backend(String origin, std::vector<route> routes)
+Core::Backend::Backend(String origin, std::vector<route> routes)
 {
     _origin = origin;
     _routes = routes;
 }
 
-DynamicJsonDocument Backend::deserialize(String json)
+DynamicJsonDocument Core::Backend::deserialize(String json)
 {
     DynamicJsonDocument doc(1024);
     deserializeJson(doc, json.c_str());
@@ -32,7 +30,7 @@ DynamicJsonDocument Backend::deserialize(String json)
     return doc;
 }
 
-std::string Backend::serialize(JsonObject json)
+std::string Core::Backend::serialize(JsonObject json)
 {
     StaticJsonDocument<1024> doc;
 
@@ -46,7 +44,7 @@ std::string Backend::serialize(JsonObject json)
     return jsonSerialized;
 }
 
-String Backend::requestPayload(String endpoint, String payload, String method)
+String Core::Backend::requestPayload(String endpoint, String payload, String method)
 {
     int httpCode = 0;
     HTTPClient http;
@@ -72,7 +70,7 @@ String Backend::requestPayload(String endpoint, String payload, String method)
     return response;
 }
 
-String Backend::requestParameters(String endpoint, String parameters, String method)
+String Core::Backend::requestParameters(String endpoint, String parameters, String method)
 {
     int httpCode = 0;
     HTTPClient http;
@@ -99,7 +97,7 @@ String Backend::requestParameters(String endpoint, String parameters, String met
     return response;
 }
 
-String Backend::getRoute(String name)
+String Core::Backend::getRoute(String name)
 {
     String path = "";
 
@@ -115,12 +113,12 @@ String Backend::getRoute(String name)
     return path;
 }
 
-String Backend::getOrigin()
+String Core::Backend::getOrigin()
 {
     return _origin;
 }
 
-String Backend::getMethod(String name)
+String Core::Backend::getMethod(String name)
 {
     String method = "";
 

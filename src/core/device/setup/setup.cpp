@@ -13,14 +13,13 @@
 
 #include "setup.h"
 
-using namespace Core;
-
-Setup::Setup(firmware_dependencies &dependencies)
+Core::Setup::Setup(firmware_dependencies &dependencies)
 {
-    _settings = dependencies.settings;
-    _backend = dependencies.backend;
-    _ble = dependencies.ble;
-    _wifi = dependencies.wifi;
+    _dependencies = dependencies;
+    _settings = _dependencies.settings;
+    _backend = _dependencies.backend;
+    _ble = _dependencies.ble;
+    _wifi = _dependencies.wifi;
 }
 
 /*
@@ -28,20 +27,20 @@ Setup::Setup(firmware_dependencies &dependencies)
  *
  * @return {void}
  */
-void setupDevice()
+void Core::Setup::setupDevice()
 {
     setupStage();
     setupCommunications();
 }
 
-void setupStage(bool developerMode)
+void Core::Setup::setupStage(bool developerMode)
 {
     Serial.println("Setting up stage...");
     Serial.println("Developer mode: " + developerMode ? "Yes" : "No");
     _settings->device_config.is_developer_mode.developerMode = developerMode;
 }
 
-void setupCommunications()
+void Core::Setup::setupCommunications()
 {
     Serial.println("Setting up communications...");
 
@@ -61,7 +60,7 @@ void setupCommunications()
     }
 }
 
-void backendInit()
+void Core::Setup::backendInit()
 {
     Serial.println("Setting up Backend...");
 
@@ -83,7 +82,7 @@ void backendInit()
     }
 }
 
-void bleInit()
+void Core::Setup::bleInit()
 {
     Serial.println("Setting up BLE...");
 
@@ -91,11 +90,11 @@ void bleInit()
     _ble->startService();
 }
 
-void wifiInit()
+void Core::Setup::wifiInit()
 {
     Serial.println("Setting up Wifi...");
 
-    _wifi = new Wifi(_settings->device_config.device_id);
+    _wifi = new Wifi(_dependencies);
 
     enableAccessPoint();
     enableStaticIP();
@@ -103,7 +102,7 @@ void wifiInit()
     enableServer();
 }
 
-void enableAccessPoint()
+void Core::Setup::enableAccessPoint()
 {
     if (_settings->device_config.is_wifiap_enabled == true)
     {
@@ -117,7 +116,7 @@ void enableAccessPoint()
     }
 }
 
-void enableStaticIP()
+void Core::Setup::enableStaticIP()
 {
     if (_settings->device_config.is_wifi_static_ip_enabled == true)
     {
@@ -131,7 +130,7 @@ void enableStaticIP()
     }
 }
 
-void stablishNetworkConnection()
+void Core::Setup::stablishNetworkConnection()
 {
     String localIp = "";
 
@@ -149,7 +148,7 @@ void stablishNetworkConnection()
     }
 }
 
-void enableServer()
+void Core::Setup::enableServer()
 {
     if (_settingsController->settings.is_server_enabled == true)
     {
