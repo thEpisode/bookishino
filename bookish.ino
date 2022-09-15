@@ -1,5 +1,5 @@
 /*
- * main.ino - Sketch for flashing ESP32 micro-node.
+ * bookish.ino - Sketch for flashing ESP32 micro-node.
  *
  * Author: Camilo Rodriguez Cuaran
  * Company: Virtual capital of America
