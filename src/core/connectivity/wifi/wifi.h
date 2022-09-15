@@ -18,7 +18,7 @@
 #include <WebServer.h>
 #include <WiFi.h>
 
-#include "../../../../firmware.h"
+#include "../../../../bookish.h"
 #include "../../device/settings/settings.h"
 
 typedef struct wifi_credentials

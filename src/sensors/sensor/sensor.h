@@ -15,7 +15,7 @@
 
 #include <Arduino.h>
 
-typedef struct Sensor
+typedef struct sensor_settings
 {
     String name;
     String node_id;

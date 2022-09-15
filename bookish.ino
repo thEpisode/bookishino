@@ -33,12 +33,12 @@ bool isInThreadCycle(int threadCycle)
 {
     if (firmware->currentMilliseconds - firmware->previousDeviceCycleMilliseconds < threadCycle)
     {
-        return false
+        return false;
     }
 
     firmware->previousDeviceCycleMilliseconds = firmware->currentMilliseconds;
 
-    return true
+    return true;
 }
 
 void mainThread()
