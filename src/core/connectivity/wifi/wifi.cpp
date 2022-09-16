@@ -17,7 +17,7 @@ Core::Wifi::Wifi()
     // Initialize firmware instance
     firmware = firmware->getInstance();
     
-    _deviceId = firmware->settings()->device.device_id;
+    _deviceId = firmware->settings().device.device_id;
 }
 
 String Core::Wifi::connect(String ssid, String password)
