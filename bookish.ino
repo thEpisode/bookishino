@@ -70,15 +70,15 @@ void threadHandling()
 
 void setupSensors()
 {
-    sensors._virtual32Controller = new Sensor::Virtual32();
-    sensors._virtual8266Controller = new Sensor::Virtual8266();
+    sensors._virtual32Controller = new Sensor::Virtual32(0, "sensor-id-001");
+    sensors._virtual8266Controller = new Sensor::Virtual8266(1, "sensor-id-002");
 
     // TODO: Add all your sensors
 }
 
 void setupThreads()
 {
-    threads._templateThread = new Thread::Template();
+    threads._templateThread = new Thread::Template(100, "my-thread");
 
     // TODO: Add all your threads
 }
