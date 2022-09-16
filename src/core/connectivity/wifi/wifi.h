@@ -19,6 +19,7 @@
 #include <WiFi.h>
 
 #include "../../../../bookish.h"
+#include "../../firmware/firmware.h"
 #include "../../device/settings/settings.h"
 
 typedef struct wifi_credentials

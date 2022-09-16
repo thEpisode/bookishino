@@ -24,8 +24,8 @@ namespace Core
     {
     public:
         Ota(Settings *settings);
-        void Ota::handle();
-        void Ota::start();
+        void handle();
+        void start();
 
     private:
         String _password;
