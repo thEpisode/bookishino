@@ -29,17 +29,20 @@
 
 Core::Firmware *firmware;
 
-struct sensors
+typedef struct sensors_typo
 {
     /* My Sensors */
     Sensor::Virtual32 *_virtual32Controller;
     Sensor::Virtual8266 *_virtual8266Controller;
 };
 
-struct threads
+typedef struct threads_typo
 {
     /* My Threads */
     Thread::Template *_templateThread;
 };
+
+struct sensors_typo sensors;
+struct threads_typo threads;
 
 #endif
