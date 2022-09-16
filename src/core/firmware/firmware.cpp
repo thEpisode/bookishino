@@ -35,7 +35,7 @@ Core::Backend backend()
     return this->_backend;
 }
 
-void setBackend(String origin, std::vector<Core::route> routes)
+void setBackend(String origin, std::vector<Core::route_typo> routes)
 {
     this->_backend = new Core::Backend(origin, routes);
 }

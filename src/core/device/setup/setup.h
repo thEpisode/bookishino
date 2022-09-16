@@ -17,6 +17,7 @@
 #include <ArduinoJson.h>
 
 #include "../../../../bookish.h"
+#include "../../firmware/firmware.h"
 #include "../settings/settings.h"
 #include "../../connectivity/backend/backend.h"
 #include "../../connectivity/ble/ble.h"

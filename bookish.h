@@ -10,8 +10,8 @@
 
 #pragma once
 
-#ifndef FIRMWARE_H
-#define FIRMWARE_H
+#ifndef BOOKISH_H
+#define BOOKISH_H
 
 // System libraries
 #include <ArduinoJson.h>
@@ -32,14 +32,14 @@ Core::Firmware *firmware;
 struct sensors
 {
     /* My Sensors */
-    Virtual32 *_virtual32Controller;
-    Virtual8266 *_virtual8266Controller;
+    Sensor::Virtual32 *_virtual32Controller;
+    Sensor::Virtual8266 *_virtual8266Controller;
 };
 
 struct threads
 {
     /* My Threads */
     Thread::Template *_templateThread;
-}
+};
 
 #endif

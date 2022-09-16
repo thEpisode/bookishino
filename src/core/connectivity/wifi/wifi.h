@@ -30,6 +30,7 @@ typedef struct wifi_credentials
 
 namespace Core
 {
+    class Firmware;
     class Wifi
     {
     public:
