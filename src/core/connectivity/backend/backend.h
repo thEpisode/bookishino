@@ -34,9 +34,8 @@ namespace Core
         String requestPayload(String endpoint, String payload, String method);
         String requestParameters(String endpoint, String parameters, String method);
         String getRoute(String name);
-        String getMethod(String name);
-        void handleAPServerRoutes(WiFiClient client);
         String getOrigin();
+        String getMethod(String name);
 
     private:
         String _origin;

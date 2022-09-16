@@ -38,10 +38,10 @@ namespace Core
         String connect(String ssid, String password);
         bool isConnected();
         void enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[]);
+        void APServerClientHandling();
         void enableServer(int port);
         void setStaticIp(int localIp[], int gateway[], int subnet[], int primaryDNS[], int secondaryDNS[]);
         void sendMessage(String origin, String endpoint, String payload, String method);
-        void APServerClientHandling();
 
     private:
         Core::Firmware *firmware;
@@ -52,9 +52,10 @@ namespace Core
         String _password;
         WebServer *_server;
 
+        void defineEndpoints();
         void handleRoot();
-        void handleAPI();
         void handleNotFound();
+        void handleAPI();
     };
 } // namespace Core
 

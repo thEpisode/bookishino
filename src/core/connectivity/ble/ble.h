@@ -35,6 +35,10 @@ namespace Core
         BLEService *_bleService;
         BLECharacteristic *_bleDefaultCharacteristic;
         BLEAdvertising *_bleAdvertising;
+
+        void initializeBleServices();
+        void setupDefaultCharacteristic();
+        void startBleService();
     };
 } // namespace Core
 

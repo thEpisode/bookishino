@@ -29,6 +29,14 @@ namespace Core
 
     private:
         String _password;
+
+        void setupOta();
+        void setupAdminPassword();
+        void setupEvents();
+        THandlerFunction otaOnStart();
+        THandlerFunction otaOnEnd();
+        THandlerFunction_Progress otaOnProgress(unsigned int progress, unsigned int total);
+        THandlerFunction_Error otaOnError(ota_error_t error);
     };
 } // namespace Core
 

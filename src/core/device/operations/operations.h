@@ -14,6 +14,7 @@
 #define OPERATIONS_H
 
 #include <Arduino.h>
+#include "../../firmware/firmware.h"
 
 namespace Core
 {
@@ -25,6 +26,7 @@ namespace Core
         void enableAPServer();
 
     private:
+        Core::Firmware *firmware;
         String _filename;
         String _settingsJson;
     };

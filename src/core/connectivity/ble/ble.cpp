@@ -51,7 +51,7 @@ void Core::Ble::startService()
 
     setupDefaultCharacteristic();
 
-    startBleService()
+    startBleService();
 }
 
 void Core::Ble::initializeBleServices()

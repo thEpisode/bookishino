@@ -14,6 +14,8 @@
 
 Core::Operations::Operations()
 {
+    // Initialize firmware instance
+    firmware = firmware->getInstance();
 }
 
 void Core::Operations::reset()
@@ -23,8 +25,8 @@ void Core::Operations::reset()
 
 void Core::Operations::enableAPServer()
 {
-    if (_settingsController->settings.is_server_enabled == true)
+    if (firmware->settings().device.is_server_enabled == true)
     {
-        _wifiController->APServerClientHandling();
+        firmware->wifi().APServerClientHandling();
     }
 }

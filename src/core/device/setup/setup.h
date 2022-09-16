@@ -35,13 +35,23 @@ namespace Core
         // Default properties
         Core::Firmware *firmware;
         Settings *_settings;
-        
+
         // Custom properties
         Backend *_backend;
         Ble *_ble;
         Wifi *_wifi;
         String _filename;
         String _settingsJson;
+
+        void setupStage(bool developerMode);
+        void setupCommunications();
+        void backendInit();
+        void bleInit();
+        void wifiInit();
+        void enableAccessPoint();
+        void enableStaticIP();
+        void stablishNetworkConnection();
+        void enableServer();
     };
 } // namespace Core
 
