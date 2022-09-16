@@ -21,8 +21,8 @@ namespace Core
     {
     public:
         Operations();
-        void Operations::reset();
-        void Operations::enableAPServer();
+        void reset();
+        void enableAPServer();
 
     private:
         String _filename;

@@ -22,7 +22,7 @@ namespace Thread
     public:
         Template(int threadCycle, String threadName);
         void run();
-        int Template::getCycle();
+        int getCycle();
 
     private:
         String _threadName = "template";
