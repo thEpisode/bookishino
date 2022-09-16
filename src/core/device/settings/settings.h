@@ -22,6 +22,13 @@
 
 namespace Core
 {
+    typedef struct route_typo
+    {
+        String name;
+        String endpoint;
+        String method;
+    };
+
     class Settings
     {
     public:
@@ -77,8 +84,8 @@ namespace Core
             const String device_name = "d-0012";
             const String settings_filename = "settings.json";
 
-            const std::vector<Core::route> backend_routes;
-            const std::vector<Sensor> sensors;
+            const std::vector<Core::route_typo> backend_routes;
+            const std::vector<Sensor::sensor_typo> sensors;
         };
 
         struct device_config device;

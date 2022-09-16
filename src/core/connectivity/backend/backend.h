@@ -24,17 +24,11 @@
 
 namespace Core
 {
-    struct route
-    {
-        String name;
-        String endpoint;
-        String method;
-    };
 
     class Backend
     {
     public:
-        Backend(String origin, std::vector<Core::route> routes);
+        Backend(String origin, std::vector<Core::route_typo> routes);
         DynamicJsonDocument deserialize(String json);
         std::string serialize(JsonObject json);
         String requestPayload(String endpoint, String payload, String method);
@@ -47,8 +41,8 @@ namespace Core
     private:
         String _origin;
         String _endpoint;
-        std::vector<Core::route> _routes;
+        std::vector<Core::route_typo> _routes;
     };
-} // namespace core
+} // namespace Core
 
 #endif

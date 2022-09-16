@@ -16,7 +16,7 @@
 // Custom libraries
 #include "backend.h"
 
-Core::Backend::Backend(String origin, std::vector<Core::route> routes)
+Core::Backend::Backend(String origin, std::vector<Core::route_typo> routes)
 {
     _origin = origin;
     _routes = routes;
