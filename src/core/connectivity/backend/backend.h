@@ -24,7 +24,7 @@
 
 namespace Core
 {
-
+    typedef struct route_typo;
     class Backend
     {
     public:

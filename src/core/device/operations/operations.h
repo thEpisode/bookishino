@@ -18,6 +18,7 @@
 
 namespace Core
 {
+    class Firmware;
     class Operations
     {
     public:
@@ -26,7 +27,7 @@ namespace Core
         void enableAPServer();
 
     private:
-        Core::Firmware *firmware;
+        Firmware *firmware;
         String _filename;
         String _settingsJson;
     };

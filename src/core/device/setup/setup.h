@@ -21,10 +21,20 @@
 #include "../settings/settings.h"
 #include "../../connectivity/backend/backend.h"
 #include "../../connectivity/ble/ble.h"
+#include "../../connectivity/ota/ota.h"
 #include "../../connectivity/wifi/wifi.h"
 
 namespace Core
 {
+
+    // Memory-layout declarations
+    class Backend;
+    class Ble;
+    class Ota;
+    class Wifi;
+    class Settings;
+    class Firmware;
+
     class Setup
     {
     public:
