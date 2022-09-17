@@ -23,14 +23,14 @@ namespace Core
     class Ble
     {
     public:
-        Ble(std::string deviceName, std::string serviceUuid, std::string characteristicUuid, std::string defaultvalue);
+        Ble(String deviceName, String serviceUuid, String characteristicUuid, String defaultvalue);
         void startService();
 
     private:
-        std::string _deviceName;
-        std::string _serviceUuid;
-        std::string _characteristicUuid;
-        std::string _defaultvalue;
+        String _deviceName;
+        String _serviceUuid;
+        String _characteristicUuid;
+        String _defaultvalue;
         BLEServer *_bleServer;
         BLEService *_bleService;
         BLECharacteristic *_bleDefaultCharacteristic;

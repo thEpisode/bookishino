@@ -16,7 +16,7 @@
 #include <Arduino.h>
 #include <HTTPClient.h>
 #include <WebServer.h>
-#include <WiFi.h>
+#include "WiFi.h"
 
 #include "../../../../bookish.h"
 #include "../../firmware/firmware.h"

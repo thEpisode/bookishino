@@ -40,35 +40,35 @@ namespace Core
         /* Static access method. */
         static Firmware *getInstance();
         /* Backend */
-        Core::Backend backend();
+        Core::Backend* backend();
         void setBackend(String origin, std::vector<Core::route_typo> routes);
 
         /* BLE */
-        Core::Ble ble();
-        void setBle(std::string deviceName, std::string serviceUuid, std::string characteristicUuid, std::string defaultvalue);
+        Core::Ble* ble();
+        void setBle(String deviceName, String serviceUuid, String characteristicUuid, String defaultvalue);
 
         /* OTA */
-        Core::Ota ota();
+        Core::Ota* ota();
         void setOta();
 
         /* WiFi */
-        Core::Wifi wifi();
+        Core::Wifi* wifi();
         void setWifi();
 
         /* Local Storage */
-        Core::LocalStorage localStorage();
+        Core::LocalStorage* localStorage();
         void setLocalStorage();
 
         /* Operations */
-        Core::Operations operations();
+        Core::Operations* operations();
         void setOperations();
 
         /* Settings */
-        Core::Settings settings();
+        Core::Settings* settings();
         void setSettings();
 
         /* Setup */
-        Core::Setup setup();
+        Core::Setup* setup();
         void setSetup();
 
         /* data */
@@ -80,7 +80,7 @@ namespace Core
         static Firmware *instance;
 
         /* Connectivity */
-        Core::Backend *_backend;
+        Core::Backend* _backend;
         Core::Ble *_ble;
         Core::Ota *_ota;
         Core::Wifi *_wifi;
@@ -90,7 +90,7 @@ namespace Core
         Core::Operations *_operations;
         Core::Settings *_settings;
         Core::Setup *_setup;
-
+String str;
         /* Private constructor to prevent instancing. */
         Firmware();
     };

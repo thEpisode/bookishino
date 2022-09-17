@@ -15,11 +15,11 @@
 #include <ArduinoJson.h>
 #include "../localstorage/localstorage.h"
 
-Core::Settings::Settings(settings_filename)
+Core::Settings::Settings(String settings_filename)
 {
     _filename = device.settings_filename;
     _localStorage = new LocalStorage();
-    _settingsJson = _localStorage->read(filename);
+    _settingsJson = _localStorage->read(_filename);
 
     if (_settingsJson.length() > 0)
     {
@@ -29,15 +29,20 @@ Core::Settings::Settings(settings_filename)
 
 void Core::Settings::setProperties()
 {
-    DynamicJsonDocument doc(1024);
+    // FIXME: Set the settings
+    /* DynamicJsonDocument doc(1024);
     deserializeJson(doc, _settingsJson.c_str());
 
-    // FIXME: Set the settings
-    /* settings.device_id = doc["id"];
+    settings.device_id = doc["id"];
     settings.is_wifi_enabled = doc["is_wifi_enabled"];
     settings.is_backend_enabled = doc["is_backend_enabled"];
     settings.is_ble_enabled = doc["is_ble_enabled"];
     settings.is_flash_mode = doc["is_flash_mode"];
     settings.settings_filename = doc["settings_filename"];
     settings.flash_mode_delay = doc["flash_mode_delay"]; */
+}
+
+void Core::Settings::setIsDeveloperMode(bool developerMode)
+{
+    device.is_developer_mode = developerMode;
 }

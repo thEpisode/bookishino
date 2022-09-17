@@ -25,8 +25,8 @@ void Core::Operations::reset()
 
 void Core::Operations::enableAPServer()
 {
-    if (firmware->settings().device.is_server_enabled == true)
+    if (firmware->settings()->device.is_server_enabled == true)
     {
-        firmware->wifi().APServerClientHandling();
+        firmware->wifi()->APServerClientHandling();
     }
 }

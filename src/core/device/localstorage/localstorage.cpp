@@ -9,7 +9,7 @@
  */
 
 #include <Arduino.h>
-#include <SPIFFS.h>
+#include "SPIFFS.h"
 #include <ArduinoJson.h>
 
 #include "localstorage.h"
@@ -24,7 +24,7 @@ Core::LocalStorage::LocalStorage()
 
 DynamicJsonDocument Core::LocalStorage::deserialize(String json)
 {
-    DynamicJsonDocument doc(1024);
+    DynamicJsonDocument doc(2048);
     deserializeJson(doc, json.c_str());
 
     return doc;

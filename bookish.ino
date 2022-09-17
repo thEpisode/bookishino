@@ -45,17 +45,17 @@ void mainThread()
 {
     captureTimestamp();
 
-    if (!isInThreadCycle(firmware->settings().device.main_thread_cycle))
+    if (!isInThreadCycle(firmware->settings()->device.main_thread_cycle))
     {
         return;
     }
 
-    if (firmware->wifi().isConnected() == false)
+    if (firmware->wifi()->isConnected() == false)
     {
         return;
     }
 
-    firmware->ota().handle();
+    firmware->ota()->handle();
 }
 
 void threadHandling()
@@ -95,7 +95,7 @@ void setup()
     firmware->setSetup();
 
     // Start setup of device
-    firmware->setup().setupDevice();
+    firmware->setup()->setupDevice();
 
     // Setting up your sensors and threads
     setupSensors();

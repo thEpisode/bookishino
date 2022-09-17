@@ -11,7 +11,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
 #include <Arduino.h>
 #include <ArduinoJson.h>

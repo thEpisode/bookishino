@@ -13,6 +13,7 @@
 #ifndef LOCALSTORAGE_H
 #define LOCALSTORAGE_H
 
+#include <string>
 #include <Arduino.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>

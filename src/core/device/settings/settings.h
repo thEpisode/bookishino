@@ -34,58 +34,59 @@ namespace Core
     public:
         Settings(String filename);
         void setProperties();
+        void setIsDeveloperMode(bool developerMode);
 
         typedef struct device_config
         {
             /* Communications */
             // WIFI
-            const bool is_wifi_enabled = true;
-            const bool is_wifi_static_ip_enabled = false;
-            const int wifi_server_ip[4] = {192, 168, 1, 2};
-            const String wifi_prod_ssid = "Bookish default prod ssid";
-            const String wifi_prod_pass = "B00k1sh";
-            const String wifi_dev_ssid = "Bookish default dev ssid";
-            const String wifi_dev_pass = "B00k1sh";
+            bool is_wifi_enabled = true;
+            bool is_wifi_static_ip_enabled = false;
+            int wifi_server_ip[4] = {192, 168, 1, 2};
+            String wifi_prod_ssid = "Bookish default prod ssid";
+            String wifi_prod_pass = "B00k1sh";
+            String wifi_dev_ssid = "Bookish default dev ssid";
+            String wifi_dev_pass = "B00k1sh";
 
             // Server
-            const bool is_server_enabled = false;
-            const int server_port = 80;
+            bool is_server_enabled = false;
+            int server_port = 80;
 
             // Backend services
-            const bool is_backend_enabled = true;
-            const String api_dev_origin = "192.168.1.2";
-            const String api_prod_origin = "api.bookish.com";
+            bool is_backend_enabled = true;
+            String api_dev_origin = "192.168.1.2";
+            String api_prod_origin = "api.bookish.com";
 
             // WIFI Access Point
-            const bool is_wifiap_enabled = false;
-            const String ap_ssid = "Bookish default ssid";
-            const String ap_pass = "B00k1sh";
-            const int wifi_ap_gateway[4] = {192, 168, 1, 254};
-            const int wifi_ap_subnet[4] = {255, 255, 255, 0};
-            const int wifi_ap_primary_dns[4] = {8, 8, 8, 8};
-            const int wifi_ap_secondary_dns[4] = {8, 8, 4, 4};
+            bool is_wifiap_enabled = false;
+            String ap_ssid = "Bookish default ssid";
+            String ap_pass = "B00k1sh";
+            int wifi_ap_gateway[4] = {192, 168, 1, 254};
+            int wifi_ap_subnet[4] = {255, 255, 255, 0};
+            int wifi_ap_primary_dns[4] = {8, 8, 8, 8};
+            int wifi_ap_secondary_dns[4] = {8, 8, 4, 4};
 
             // Bluetooth Low Energy (BLE)
-            const bool is_ble_enabled = true;
-            const String service_uuid = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
-            const String characteristic_uuid = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
-            const String default_value = "my_default_value";
+            bool is_ble_enabled = true;
+            String service_uuid = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
+            String characteristic_uuid = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+            String default_value = "my_default_value";
 
             // Over The Air (OTA)
-            const bool is_ota_enabled = true;
-            const String ota_password = "B00k1sh_4dm1n_OTA";
+            bool is_ota_enabled = true;
+            String ota_password = "B00k1sh_4dm1n_OTA";
 
             // Developer
-            const bool is_developer_mode = true;
+            bool is_developer_mode = true;
 
             /* Device */
-            const long main_thread_cycle = 100;
-            const String device_id = "nod-1c29d6b882";
-            const String device_name = "d-0012";
-            const String settings_filename = "settings.json";
+            long main_thread_cycle = 100;
+            String device_id = "nod-1c29d6b882";
+            String device_name = "d-0012";
+            String settings_filename = "settings.json";
 
-            const std::vector<Core::route_typo> backend_routes;
-            const std::vector<Sensor::sensor_typo> sensors;
+            std::vector<Core::route_typo> backend_routes;
+            std::vector<Sensor::sensor_typo> sensors;
         };
 
         struct device_config device;

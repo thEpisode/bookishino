@@ -30,82 +30,82 @@ Core::Firmware *Core::Firmware::getInstance()
     return instance;
 }
 
-Core::Backend backend()
+Core::Backend* Core::Firmware::backend()
 {
     return this->_backend;
 }
 
-void setBackend(String origin, std::vector<Core::route_typo> routes)
+void Core::Firmware::setBackend(String origin, std::vector<Core::route_typo> routes)
 {
     this->_backend = new Core::Backend(origin, routes);
 }
 
-Core::Ble ble()
+Core::Ble* Core::Firmware::ble()
 {
     return this->_ble;
 }
 
-void setBle(std::string deviceName, std::string serviceUuid, std::string characteristicUuid, std::string defaultvalue)
+void Core::Firmware::setBle(String deviceName, String serviceUuid, String characteristicUuid, String defaultvalue)
 {
     this->_ble = new Core::Ble(deviceName, serviceUuid, characteristicUuid, defaultvalue);
 }
 
-Core::Ota ota()
+Core::Ota* Core::Firmware::ota()
 {
     return this->_ota;
 }
 
-void setOta()
+void Core::Firmware::setOta()
 {
-    this->_ota = new Core::Ota();
+    this->_ota = new Core::Ota(this->settings()->device.ota_password);
 }
 
-Core::Wifi wifi()
+Core::Wifi* Core::Firmware::wifi()
 {
     return this->_wifi;
 }
 
-void setWifi()
+void Core::Firmware::setWifi()
 {
     this->_wifi = new Core::Wifi();
 }
 
-Core::LocalStorage localStorage()
+Core::LocalStorage* Core::Firmware::localStorage()
 {
     return this->_localStorage;
 }
 
-void setLocalStorage()
+void Core::Firmware::setLocalStorage()
 {
     this->_localStorage = new Core::LocalStorage();
 }
 
-Core::Operations operations()
+Core::Operations* Core::Firmware::operations()
 {
     return this->_operations;
 }
 
-void setOperations()
+void Core::Firmware::setOperations()
 {
     this->_operations = new Core::Operations();
 }
 
-Core::Settings settings()
+Core::Settings* Core::Firmware::settings()
 {
     return this->_settings;
 }
 
-void setSettings()
+void Core::Firmware::setSettings()
 {
-    this->_settings = new Core::Settings();
+    this->_settings = new Core::Settings(this->_settings->device.settings_filename);
 }
 
-Core::Setup setup()
+Core::Setup* Core::Firmware::setup()
 {
     return this->_setup;
 }
 
-void setSetup()
+void Core::Firmware::setSetup()
 {
     this->_setup = new Core::Setup();
 }

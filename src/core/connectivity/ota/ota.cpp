@@ -46,22 +46,22 @@ void Core::Ota::setupEvents()
     Serial.println("Declaring OTA events...");
 
     // Declaration of start event
-    ArduinoOTA.onStart(&Core::Ota::otaOnStart);
+    ArduinoOTA.onStart([this]() { this->Core::Ota::otaOnStart(); });
 
     // Declaration of end event
-    ArduinoOTA.onEnd(&Core::Ota::otaOnEnd);
+    ArduinoOTA.onEnd([this]() { this->Core::Ota::otaOnEnd(); });
 
     // Declaration of progress event
-    ArduinoOTA.onProgress(&Core::Ota::otaOnProgress);
+    ArduinoOTA.onProgress([this](unsigned int progress, unsigned int total) { this->Core::Ota::otaOnProgress(progress, total); });
 
     // Declaration of error event
-    ArduinoOTA.onError(&Core::Ota::otaOnError);
+    ArduinoOTA.onError([this](ota_error_t error) { this->Core::Ota::otaOnError(error); });
 
     Serial.println("beginning OTA service...");
 }
 
 // typedef THandlerFunction: https://github.com/esp8266/Arduino/blob/master/libraries/ArduinoOTA/ArduinoOTA.h
-THandlerFunction Core::Ota::otaOnStart()
+void Core::Ota::otaOnStart()
 {
     String type;
     if (ArduinoOTA.getCommand() == U_FLASH)
@@ -77,19 +77,19 @@ THandlerFunction Core::Ota::otaOnStart()
     Serial.println("Start updating " + type);
 }
 
-THandlerFunction Core::Ota::otaOnEnd()
+void Core::Ota::otaOnEnd()
 {
     Serial.println("\nEnd");
 }
 
-THandlerFunction_Progress Core::Ota::otaOnProgress(unsigned int progress, unsigned int total)
+void Core::Ota::otaOnProgress(unsigned int progress, unsigned int total)
 {
-    Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+    Serial.println("Progress: " + (progress / (total / 100)));
 }
 
-THandlerFunction_Error Core::Ota::otaOnError(ota_error_t error)
+void Core::Ota::otaOnError(ota_error_t error)
 {
-    Serial.printf("OTA Service Error[%u]: ", error);
+    Serial.println("OTA Service Error: " + error);
 
     switch (error)
     {

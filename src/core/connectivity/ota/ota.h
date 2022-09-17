@@ -23,7 +23,7 @@ namespace Core
     class Ota
     {
     public:
-        Ota(Settings *settings);
+        Ota(String password);
         void handle();
         void start();
 
@@ -33,10 +33,10 @@ namespace Core
         void setupOta();
         void setupAdminPassword();
         void setupEvents();
-        THandlerFunction otaOnStart();
-        THandlerFunction otaOnEnd();
-        THandlerFunction_Progress otaOnProgress(unsigned int progress, unsigned int total);
-        THandlerFunction_Error otaOnError(ota_error_t error);
+        void otaOnStart();
+        void otaOnEnd();
+        void otaOnProgress(unsigned int progress, unsigned int total);
+        void otaOnError(ota_error_t error);
     };
 } // namespace Core
 
