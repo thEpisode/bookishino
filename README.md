@@ -1,4 +1,4 @@
-# bookish
+# bookish.ino
 Baseline project for expert embedded device developers based in Arduino architectures ESP32
 
 ## Installation
