@@ -14,18 +14,15 @@
 
 Core::Wifi::Wifi()
 {
-    // Initialize firmware instance
-    firmware = firmware->getInstance();
-    
-    _deviceId = firmware->settings()->device.device_id;
 }
 
-String Core::Wifi::connect(String ssid, String password)
+String Core::Wifi::connect(String ssid, String password, String deviceId)
 {
     Serial.println("Connecting to " + ssid + " with password " + password);
 
     _ssid = ssid;
     _password = password;
+    _deviceId = deviceId;
 
     pinMode(2, OUTPUT);
 

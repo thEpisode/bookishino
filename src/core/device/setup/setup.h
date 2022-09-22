@@ -17,6 +17,7 @@
 #include <ArduinoJson.h>
 
 #include "../../../../bookish.h"
+#include "../../../../typos.h"
 #include "../../firmware/firmware.h"
 #include "../settings/settings.h"
 #include "../../connectivity/backend/backend.h"
@@ -26,15 +27,6 @@
 
 namespace Core
 {
-
-    // Memory-layout declarations
-    class Backend;
-    class Ble;
-    class Ota;
-    class Wifi;
-    class Settings;
-    class Firmware;
-
     class Setup
     {
     public:

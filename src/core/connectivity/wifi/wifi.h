@@ -18,9 +18,7 @@
 #include <WebServer.h>
 #include "WiFi.h"
 
-#include "../../../../bookish.h"
-#include "../../firmware/firmware.h"
-#include "../../device/settings/settings.h"
+#include "../../../../typos.h"
 
 typedef struct wifi_credentials
 {
@@ -30,12 +28,11 @@ typedef struct wifi_credentials
 
 namespace Core
 {
-    class Firmware;
     class Wifi
     {
     public:
         Wifi();
-        String connect(String ssid, String password);
+        String connect(String ssid, String password, String deviceId);
         bool isConnected();
         void enableAccessPoint(String ssid, String password, int localIp[], int gateway[], int subnet[]);
         void APServerClientHandling();

@@ -16,7 +16,7 @@
 #include <Arduino.h>
 #include <ArduinoOTA.h>
 
-#include "../../device/settings/settings.h"
+#include "../../../../typos.h"
 
 namespace Core
 {

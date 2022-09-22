@@ -14,11 +14,12 @@
 #define OPERATIONS_H
 
 #include <Arduino.h>
+
+#include "../../../../typos.h"
 #include "../../firmware/firmware.h"
 
 namespace Core
 {
-    class Firmware;
     class Operations
     {
     public:

@@ -139,13 +139,19 @@ void Core::Setup::stablishNetworkConnection()
     {
         Serial.println("Connecting to Wifi as developer mode...");
 
-        localIp = firmware->wifi()->connect(firmware->settings()->device.wifi_dev_ssid, firmware->settings()->device.wifi_dev_pass);
+        localIp = firmware->wifi()->connect(
+            firmware->settings()->device.wifi_dev_ssid, 
+            firmware->settings()->device.wifi_dev_pass,
+            firmware->settings()->device.device_id);
     }
     else
     {
         Serial.println("Connecting to Wifi as production mode...");
 
-        localIp = firmware->wifi()->connect(firmware->settings()->device.wifi_prod_ssid, firmware->settings()->device.wifi_prod_pass);
+        localIp = firmware->wifi()->connect(
+            firmware->settings()->device.wifi_prod_ssid, 
+            firmware->settings()->device.wifi_prod_pass,
+            firmware->settings()->device.device_id);
     }
 }
 

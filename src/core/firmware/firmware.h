@@ -13,6 +13,7 @@
 #ifndef FIRMWARE_H
 #define FIRMWARE_H
 
+#include "../../../typos.h"
 #include "../connectivity/backend/backend.h"
 #include "../connectivity/ble/ble.h"
 #include "../connectivity/ota/ota.h"
@@ -24,16 +25,6 @@
 
 namespace Core
 {
-    // Memory-layout declarations
-    class Backend;
-    class Ble;
-    class Ota;
-    class Wifi;
-    class LocalStorage;
-    class Operations;
-    class Settings;
-    class Setup;
-
     class Firmware
     {
     public:
