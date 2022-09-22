@@ -16,7 +16,6 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 
-#include "../../../../bookish.h"
 #include "../../../../typos.h"
 #include "../../firmware/firmware.h"
 #include "../settings/settings.h"

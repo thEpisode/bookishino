@@ -15,7 +15,6 @@
 
 #include <Arduino.h>
 
-#include "../../../../typos.h"
 #include "../../firmware/firmware.h"
 
 namespace Core

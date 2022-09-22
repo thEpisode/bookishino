@@ -19,12 +19,33 @@
 // Firmware
 #include "src/core/firmware/firmware.h"
 
+// Sensors
+#include "src/sensors/sensor/sensor.h"
+#include "src/sensors/virtual32/virtual32.h"
+#include "src/sensors/virtual8266/virtual8266.h"
+
+// Threads
+#include "src/threads/template/template.thread.h"
+
 // Typos
 #include "typos.h"
 
 Core::Firmware *firmware;
 
-struct sensors_typo sensors;
-struct threads_typo threads;
+typedef struct sensors_typo
+{
+    /* My Sensors */
+    Sensor::Virtual32 *_virtual32Controller;
+    Sensor::Virtual8266 *_virtual8266Controller;
+};
+
+typedef struct threads_typo
+{
+    /* My Threads */
+    Thread::Template *_templateThread;
+};
+
+sensors_typo sensors;
+threads_typo threads;
 
 #endif

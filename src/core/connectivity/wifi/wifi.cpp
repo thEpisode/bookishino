@@ -18,7 +18,9 @@ Core::Wifi::Wifi()
 
 String Core::Wifi::connect(String ssid, String password, String deviceId)
 {
-    Serial.println("Connecting to " + ssid + " with password " + password);
+    Serial.println("Connecting to Wi-Fi:");
+    Serial.println(ssid);
+    Serial.println(password);
 
     _ssid = ssid;
     _password = password;
@@ -48,7 +50,8 @@ String Core::Wifi::connect(String ssid, String password, String deviceId)
         ipStr += i ? "." + String(ip[i]) : String(ip[i]);
     }
 
-    Serial.println("Local Ip: " + ipStr);
+    Serial.println("Local Ip: ");
+    Serial.println(ipStr);
     return ipStr;
 }
 

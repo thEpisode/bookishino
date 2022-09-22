@@ -74,7 +74,8 @@ void Core::Ota::otaOnStart()
     }
 
     // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
-    Serial.println("Start updating " + type);
+    Serial.println("Start updating ");
+    Serial.println(type);
 }
 
 void Core::Ota::otaOnEnd()
@@ -84,12 +85,13 @@ void Core::Ota::otaOnEnd()
 
 void Core::Ota::otaOnProgress(unsigned int progress, unsigned int total)
 {
-    Serial.println("Progress: " + (progress / (total / 100)));
+    Serial.println((progress / (total / 100)));
 }
 
 void Core::Ota::otaOnError(ota_error_t error)
 {
-    Serial.println("OTA Service Error: " + error);
+    Serial.println("OTA Service Error: ");
+    Serial.println(error);
 
     switch (error)
     {
